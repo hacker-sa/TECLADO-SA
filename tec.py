@@ -158,6 +158,7 @@ def update():
          os.system("cd /data/data/com.termux/files/home;mkdir T-SA")
          os.system("cd /data/data/com.termux/files/home;cd T-SA;git clone https://github.com/hacker-sa/TECLADO-SA")
          os.system("cd /data/data/com.termux/files/home;cd TECLADO-SA;mv -v config.py /data/data/com.termux/files/home/T-SA;cd;cd T-SA;python2 config.py")
+         sys.exit()
 
 #=============================================================
 #"""______:::____::::___ teclado orgn ____::::____:::_____"""
