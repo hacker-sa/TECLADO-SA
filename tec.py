@@ -917,6 +917,7 @@ def sair():
     txt(g+"Espero tê-lo ajudado...Qualquer dúvida crítica ou sujestão por favor contate-me.\n\nEmail 👉"+b+" hacker-sa02@gmail.com")
     txt(g+"meu github 👉 "+b+"https://github.com/hacker-sa")
     sys.exit()
+    Sys.exit()
 
 #=============================================================
 #"""_______:::___::::___função restart __::::____:::_______"""
