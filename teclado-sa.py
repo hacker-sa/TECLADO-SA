@@ -8,8 +8,8 @@
 from tec import *
 
 """_____#_____+____ ꧁↠↠↠início↞↞↞꧂ ____+____#_____"""
-"""   
-os.system("rm -rf /data/data/com.termux/files/home/T-SA")                                            """
+"""                                                       """
+os.system("rm -rf /data/data/com.termux/files/home/T-SA")
 banner()
 
 #=============================================================
