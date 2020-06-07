@@ -9,7 +9,7 @@ import os
 try:
    import tqdm
 except ImportError:
-   os.system("pip2 install tqdm -y")
+   os.system("pip2 install tqdm")
 
 from tec import *
 
