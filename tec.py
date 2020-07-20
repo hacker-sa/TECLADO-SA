@@ -1,947 +1,671 @@
-#!/usr/bin/env python2
-#-*- coding:utf8 -*-
-import os
-import sys
-import readline
-from time import sleep
-from tqdm import tqdm
-from tqdm import trange
-#=============================================================
-#_______::::____::::____cores primárias____::::____::::_______
-#=============================================================
-c = "\033[90m"
-r = "\033[91m"
-g = "\033[0m\033[92m"
-gi = "\033[3m\033[92m"
-y = "\033[93m"
-B = "\033[94m"
-d = "\033[0m\033[97m"
-b = "\033[0m\033[1;38;05;20m" #azul claro
-#=============================================================
-#___::___:::____cores secundárias e terçiárias____:::___::____
-#=============================================================
-gn = "\033[92m"
-m = "\033[3m\033[1;38;05;129m"
-v = "\033[3m\033[1;38;05;22m" #verde escuro
-vn = "\033[0m\033[1;38;05;22m" #verde escuro
-va = "\033[1;38;05;23m" #verde escuro com azul
-ac = "\033[3m\033[1;38;05;20m" #azul claro
-acn = "\033[0m\033[1;38;05;20m" #azul claro
-ac2 = "\033[1;38;05;21;3m" #azulclaro2
-ac3 = "\033[0m\033[1;38;05;21m" #azulclaro
-a2 = "\033[0m\033[1;38;05;129m"
-os.system("clear")
-#=============================================================
-#_____::::___::::_____modo e velocidade_____::::____::::______
-#=============================================================
-def text(s):
-    for noobs in s + "\n":
-            sys.stdout.write(noobs)
-            sys.stdout.flush()
-            sleep(5. / 2100)
-
-#=============================================================
-#_____::::___::::____definicao do banner____::::____::::______
-#=============================================================
-def banner():
-    text (ac3+"""
-
-▬▬▬▬▬▬▬▬▬▬▬▬
-     █       █▀▀▀▀▀  █▀▀▀▀▀▀▀  █        █▀▀▀▀▀▀▀█  █▀▀▀▀▀▀▀⸜⸜  ╭▀▀▀▀▀▀╮    █▀▀▀▀▀▀  █▀▀▀▀▀▀█
-     █       █       █         █        █       █  █        █  █      █    █        █      █
-     █       █▬▬▬▬▬  █         █        █▬▬▬▬▬▬▬█  █        █  █      █ ▬▬ ╚═════╗  █▬▬▬▬▬▬█
-     █       █       █         █        █       █  █        █  █      █          ║  █      █
-     █       █       █         █        █       █  █        █  █      █          █  █      █
-     █       ▀▀▀▀▀▀  ▀▀▀▀▀▀▀▀  ▀▀▀▀▀▀▀  █       █  ▀▀▀▀▀▀▀▀⸍⸍  ╰▀▀▀▀▀▀╯    ▀▀▀▀▀▀▀  █      █
-                                                    """+g+"ｃｒｅａｔｅｄ ｂｙ 👉 ｈａｃｋｅｒ-ｓａ"+g+"""
-                                                                          ｖｅｒｓｉｏｎ:2.0
-""")
-
-
-#=============================================================
-#"""_______::::___::::_____ menu 2 _____::::____::::_______"""
-#=============================================================
-def menu2():
-    os.system('clear')
-    print (acn+"\nescolha a opção 👇")
-    print (g+"""
-
-"""+b+"["+y+"1"+b+"]"+"""
-   """+acn+"\_______________________________________"+g+"""
-"""+acn+"""   ║                                      ║
-"""+acn+"   ║"+v+"  ESC   /   -   HOME   UP   END  PGUP "+acn+"""║
-   ║                                      ║
-"""+acn+"   ║"+v+" TAB CTRL ALT  LEFT  DOWN  RIGHT PGDN "+acn+"""║
-   ║"""+acn+"______________________________________║"+b+"""
-
-"""+"["+y+"2"+b+"]"+"""
-   """+acn+"\________________________________________"+g+"""
-"""+acn+"""   ║                                       ║
-"""+acn+"   ║"+v+"  {    }    [     ]     up    (    ) "+acn+"""  ║
-   ║                                       ║
-"""+acn+"   ║"+v+" ESC   /    -   HOME    +    END  PGUP "+acn+"""║
-   ║                                       ║
-"""+acn+"   ║"+v+" TAB CTRL  ALT  LEFT  DOWN  RIGHT PGDN "+acn+"""║
-   ║"""+acn+"_______________________________________║"+b+"""
-
-"""+"["+y+"3"+b+"]"+"""
-   """+acn+"\_____________________________________________"+g+"""
-"""+acn+"""   ║                                            ║
-"""+acn+"   ║"+v+"   {    }    [    ]    *     up   (    ) "+acn+"""   ║
-   ║                                            ║
-"""+acn+"   ║"+v+" ESC   /    -   =    HOME    +    END  PGUP "+acn+"""║
-   ║                                            ║
-"""+acn+"   ║"+v+" TAB CTRL  ALT  ═    LEFT  DOWN  RIGHT PGDN "+acn+"""║
-   ║"""+acn+"____________________________________________║"+b+"""
-
-"""+"["+y+"4"+b+"]"+"""
-   """+acn+"\________________________________________"+g+"""
-"""+acn+"""   ║                                       ║
-"""+acn+"   ║"+v+"  {}   []   ()    $     UP     #    _ "+acn+""" ║
-   ║                                       ║
-"""+acn+"   ║"+v+" ESC   /    -   HOME    +    END  PGUP "+acn+"""║
-   ║                                       ║
-"""+acn+"   ║"+v+" TAB CTRL  ALT  LEFT  DOWN  RIGHT PGDN "+acn+"""║
-   ║"""+acn+"_______________________________________║"+b+"""
-
-"""+"["+y+"5"+b+"]"+"""
-   """+acn+"\____________________________________________"+g+"""
-"""+acn+"""   ║                                           ║
-"""+acn+"   ║"+v+"  {}   []   ()   *    $     UP     #    _ "+acn+""" ║
-   ║                                           ║
-"""+acn+"   ║"+v+" ESC   /    -   =   HOME    +    END  PGUP "+acn+"""║
-   ║                                           ║
-"""+acn+"   ║"+v+" TAB CTRL  ALT  ═   LEFT  DOWN  RIGHT PGDN "+acn+"""║
-   ║"""+acn+"___________________________________________║"+b+"""
-
-"""+"["+y+"6"+b+"]"+v+"                   ｐａｒａ ｄｅｓｅｎｈｏｓ"+acn+"""
-   """+acn+"\____________________________________________________________________"+g+"""
-"""+acn+"""   ║                                                                   ║
-"""+acn+"   ║"+vn+"  ╔       ╗    ╦    ▒    ░    ╭     ╮     UP     ●     √   ✧   ▬  "+acn+""" ║
-   ║                                                                   ║
-"""+acn+"   ║"+vn+"  ╚       ╝    ╩    ▀    █    ╰     ╯     ¤      ¶     ▋   ☆  PGUP "+acn+"""║
-   ║                                                                   ║
-"""+acn+"   ║"+vn+" CTRL     ╠    ╣    ║    ═    ⸍   LEFT   DOWN  RIGHT   ⸜   ✺  PGDN "+acn+"""║
-   ║"""+acn+"___________________________________________________________________║"+b+"""
-
-"""+"["+y+"7"+b+"]"+v+"                   ｌｅｔｒａｓ ｇｒａｎｄｅｓ"+g+"""
-   """+acn+"\_________________________________________________________________"+g+"""
-"""+acn+"""   ║                                                                ║
-"""+acn+"   ║"+vn+"  ｑ     ｗ    ｅ    ｒ    ｔ    ｙ    ｕ    UP    ｉ   ｏ   ｐ "+acn+"""║
-   ║                                                                ║
-"""+acn+"   ║"+vn+"  ESC    ａ    ｓ    ｄ    ｆ    ｇ    ｈ    ｊ    ｋ   ｌ   ！ "+acn+"""║
-   ║                                                                ║
-"""+acn+"   ║"+vn+" CTRL    ｚ    ｘ    ｃ    ｖ    ｂ   LEFT  DOWN  RIGHT ｎ   ｍ "+acn+"""║
-   ║"""+acn+"________________________________________________________________║"+b+"""
-
-"""+b+"["+y+"８"+b+"]"+v+" ｓｏｂｒｅ"+"""
-"""+b+"["+y+"９"+b+"]"+v+" ｓａｉｒ"+"""
-"""+b+"["+y+"１０"+b+"]"+v+" ｕｐｄａｔｅ"+"""
-"""+b+"["+y+"００"+b+"]"+v+""" ｖｏｌｔａｒ ａｏ ｔｅｃｌａｄｏ ｏｒｉｇｉｎａｌ""")
-
-    print (g)
-
-#=============================================================
-#"""______:::____●●●●●___☆_  update  _☆___●●●●●____:::_____"""
-#=============================================================
-def update():
-    if os.path.exists("/data/data/com.termux/files/home/TECLADO-SA"):
-      pass
-    else:
-       os.system("cd;git clone https://github.com/hacker-sa/TECLADO-SA")
-       print ("updated")
-       sys.exit()
-    if os.path.exists("/data/data/com.termux/files/home/T-SA"):
-         os.system("cd;cd T-SA;python2 config.py")
-         sys.exit()
-    else:
-         print ("fazendo update...")
-         os.system("cd /data/data/com.termux/files/home;mkdir T-SA")
-         os.system("cd /data/data/com.termux/files/home;cd T-SA;git clone https://github.com/hacker-sa/TECLADO-SA")
-         os.system("cd /data/data/com.termux/files/home;cd TECLADO-SA;mv -v config.py /data/data/com.termux/files/home/T-SA;cd;cd T-SA;python2 config.py")
-         sys.exit()
-
-#=============================================================
-#"""______:::____::::___ teclado orgn ____::::____:::_____"""
-#=============================================================
-def mn():
-    os.system("clear")
-    print(ac+"\n\nｖｏｌｔａｎｄｏ ａｏ ｔｅｃｌａｄｏ ｏｒｉｇｉｎａｌ ｄｏ ｔｅｒｍｕｘ！")
-    print ("")
-    progressbar = tqdm([1,2,3,4,5,6,7,8,9,10,11,12,13,13,14,15,16,17,18,20])
-
-    for item in progressbar:
-        sleep(0.2)
-        progressbar.set_description("\033[0m\033[92m PROCESSANDO...{}".format(item))
-
-    print(v+"═"*72)
-    sleep(2)
-    os.system("clear")
-
-    t = 1
-    while t <= 7:
-      t = t+1
-      print(g+"["+y+"●"+g+"]"+acn+" Recuperando arquivo predeterminado do termux..."+y+"\\")
-      sleep(0.1)
-      os.system('clear')
-      print(g+"["+y+"●"+g+"]"+g+" Recuperando arquivo predeterminado do termux..."+y+"|")
-      sleep(0.1)
-      os.system('clear')
-      print(g+"["+y+"●"+g+"]"+y+" Recuperando arquivo predeterminado do termux..."+y+"/")
-      sleep(0.1)
-      os.system('clear')
-      print(g+"["+y+"●"+g+"]"+r+" Recuperando arquivo predeterminado do termux..."+y+"-")
-      sleep(0.1)
-      os.system('clear')
-
-    try:
-
-     os.mkdir("/data/data/com.termux/files/home/.termux")
-    except:
-        pass
-
-    print(g+"["+y+"●"+g+"]"+g+" sucesso "+d+"["+gn+"√"+d+"]")
-    sleep(2)
-
-    t = 1
-    while t <=7:
-      t = t+1
-      print(g+"["+y+"●"+g+"]"+acn+" adicionando botões no teclado predeterminado..."+y+"\\")
-      sleep(0.1)
-      os.system('clear')
-      print(g+"["+y+"●"+g+"]"+g+" adicionando botões no teclado predeterminado..."+y+"|")
-      sleep(0.1)
-      os.system('clear')
-      print(g+"["+y+"●"+g+"]"+y+" adicionando botões no teclado predeterminado..."+y+"/")
-      sleep(0.1)
-      os.system('clear')
-      print(g+"["+y+"●"+g+"]"+r+" adicionando botões no teclado predeterminado..."+y+"-")
-      sleep(0.1)
-      os.system('clear')
-
-    with  open("/data/data/com.termux/files/home/.termux/termux.properties","w") as tp:
-       tp.write("""extra-keys = [["ESC","TAB","CTRL","ALT","-","DOWN","UP"]]""")
-       tp.close()
-
-    sleep(2)
-
-    t = 1
-    while t <=7:
-      t = t+1
-      print(g+"["+y+"●"+g+"]"+acn+" terminando processo..."+y+"\\")
-      sleep(0.1)
-      os.system('clear')
-      print(g+"["+y+"●"+g+"]"+g+" terminando processo..."+y+"|")
-      sleep(0.1)
-      os.system('clear')
-      print(g+"["+y+"●"+g+"]"+y+" terminando processo..."+y+"/")
-      sleep(0.1)
-      os.system('clear')
-      print(g+"["+y+"●"+g+"]"+r+" terminando processo..."+y+"-")
-      sleep(0.1)
-      os.system('clear')
-
-    sleep(1)
-    os.system("termux-reload-settings")
-    print (acn+"\n                              ｐｒｏｃｅｓｓｏ ｃｏｍｐｌｅｔｏ")
-    print ("                                ｐｏｒ 👉 ｈａｃｋｅｒ-ｓａ")
-    print ("")
-    print(r+"╔"+"═"*85+"╗")
-    print (r+"║"+g+"OBS: ｐｕｘｅ ｏ teclado da direita para a esquerda para entrar na área de  trabalho！"+r+"║")
-    print("╚"+"═"*85+"╝")
-
-#=============================================================
-#"""______:::____::::_____ teclado 1 ______::::____:::_____"""
-#=============================================================
-def m1():
-    os.system("clear")
-    print(ac+"\n\nａｄｉｃｉｏｎａｎｄｏ ｔｅｃｌａｄｏ ｅｓｐｅｃｉａｌ ｎｏ ｔｅｒｍｕｘ！")
-    print ("")
-    progressbar = tqdm([1,2,3,4,5,6,7,8,9,10,11,12,13,13,14,15,16,17,18,20])
-
-    for item in progressbar:
-        sleep(0.2)
-        progressbar.set_description('\033[0m\033[92m PROCESSANDO...{}'.format(item))
-
-    print(v+"═"*72)
-    sleep(2)
-    os.system("clear")
-
-    t = 1
-    while t <= 7:
-      t = t+1
-      print(g+"["+y+"●"+g+"]"+acn+" Recuperando arquivo predeterminado do termux..."+y+"\\")
-      sleep(0.1)
-      os.system('clear')
-      print(g+"["+y+"●"+g+"]"+g+" Recuperando arquivo predeterminado do termux..."+y+"|")
-      sleep(0.1)
-      os.system('clear')
-      print(g+"["+y+"●"+g+"]"+y+" Recuperando arquivo predeterminado do termux..."+y+"/")
-      sleep(0.1)
-      os.system('clear')
-      print(g+"["+y+"●"+g+"]"+r+" Recuperando arquivo predeterminado do termux..."+y+"-")
-      sleep(0.1)
-      os.system('clear')
-
-    try:
-
-     os.mkdir("/data/data/com.termux/files/home/.termux")
-    except:
-        pass
-
-    print(g+"["+y+"●"+g+"]"+g+" sucesso "+d+"["+gn+"√"+d+"]")
-    sleep(2)
-
-    t = 1
-    while t <=7:
-      t = t+1
-      print(g+"["+y+"●"+g+"]"+acn+" adicionando botões no teclado predeterminado..."+y+"\\")
-      sleep(0.1)
-      os.system('clear')
-      print(g+"["+y+"●"+g+"]"+g+" adicionando botões no teclado predeterminado..."+y+"|")
-      sleep(0.1)
-      os.system('clear')
-      print(g+"["+y+"●"+g+"]"+y+" adicionando botões no teclado predeterminado..."+y+"/")
-      sleep(0.1)
-      os.system('clear')
-      print(g+"["+y+"●"+g+"]"+r+" adicionando botões no teclado predeterminado..."+y+"-")
-      sleep(0.1)
-      os.system('clear')
-
-    with  open("/data/data/com.termux/files/home/.termux/termux.properties","w") as tp:
-       tp.write("""extra-keys = [["ESC","/","-","HOME","UP","END","PGUP"],["TAB","CTRL","ALT","LEFT","DOWN","RIGHT","PGDN"]]""")
-       tp.close()
-
-    sleep(2)
-
-    t = 1
-    while t <=7:
-      t = t+1
-      print(g+"["+y+"●"+g+"]"+acn+" terminando processo..."+y+"\\")
-      sleep(0.1)
-      os.system('clear')
-      print(g+"["+y+"●"+g+"]"+g+" terminando processo..."+y+"|")
-      sleep(0.1)
-      os.system('clear')
-      print(g+"["+y+"●"+g+"]"+y+" terminando processo..."+y+"/")
-      sleep(0.1)
-      os.system('clear')
-      print(g+"["+y+"●"+g+"]"+r+" terminando processo..."+y+"-")
-      sleep(0.1)
-      os.system('clear')
-
-    sleep(1)
-    os.system("termux-reload-settings")
-    print (acn+"\n                              ｐｒｏｃｅｓｓｏ ｃｏｍｐｌｅｔｏ")
-    print ("                                ｐｏｒ 👉 ｈａｃｋｅｒ-ｓａ")
-    print ("")
-    print(r+"╔"+"═"*85+"╗")
-    print (r+"║"+g+"OBS: ｐｕｘｅ ｏ teclado da direita para a esquerda para entrar na área de trabalho！"+r+"║")
-    print("╚"+"═"*85+"╝")
-
-#=============================================================
-#"""____::::___::::_______teclado 2 _______::::____::::____"""
-#=============================================================
-def m2():
-    os.system("clear")
-    print(ac+"\n\nａｄｉｃｉｏｎａｎｄｏ ｔｅｃｌａｄｏ ｅｓｐｅｃｉａｌ ｎｏ ｔｅｒｍｕｘ！")
-    print ("")
-    progressbar = tqdm([1,2,3,4,5,6,7,8,9,10,11,12,13,13,14,15,16,17,18,20])
-
-    for item in progressbar:
-        sleep(0.2)
-        progressbar.set_description('\033[0m\033[92m PROCESSANDO...{}'.format(item))
-
-    print(v+"═"*72)
-    sleep(2)
-    os.system("clear")
-
-    t = 1
-    while t <= 7:
-      t = t+1
-      print(g+"["+y+"●"+g+"]"+acn+" Recuperando arquivo predeterminado do termux..."+y+"\\")
-      sleep(0.1)
-      os.system('clear')
-      print(g+"["+y+"●"+g+"]"+g+" Recuperando arquivo predeterminado do termux..."+y+"|")
-      sleep(0.1)
-      os.system('clear')
-      print(g+"["+y+"●"+g+"]"+y+" Recuperando arquivo predeterminado do termux..."+y+"/")
-      sleep(0.1)
-      os.system('clear')
-      print(g+"["+y+"●"+g+"]"+r+" Recuperando arquivo predeterminado do termux..."+y+"-")
-      sleep(0.1)
-      os.system('clear')
-
-    try:
-     os.mkdir("/data/data/com.termux/files/home/.termux")
-    except:
-        pass
-    print(g+"["+y+"●"+g+"]"+g+" sucesso "+d+"["+gn+"√"+d+"]")
-    sleep(2)
-
-    t = 1
-    while t <=7:
-      t = t+1
-      print(g+"["+y+"●"+g+"]"+acn+" adicionando botões no teclado predeterminado..."+y+"\\")
-      sleep(0.1)
-      os.system('clear')
-      print(g+"["+y+"●"+g+"]"+g+" adicionando botões no teclado predeterminado..."+y+"|")
-      sleep(0.1)
-      os.system('clear')
-      print(g+"["+y+"●"+g+"]"+y+" adicionando botões no teclado predeterminado..."+y+"/")
-      sleep(0.1)
-      os.system('clear')
-      print(g+"["+y+"●"+g+"]"+r+" adicionando botões no teclado predeterminado..."+y+"-")
-      sleep(0.1)
-      os.system('clear')
-
-    with  open("/data/data/com.termux/files/home/.termux/termux.properties","w") as tp:
-       tp.write("""extra-keys = [["{","}","[","]","UP","(",")"],["ESC","/","-","HOME","+","END","PGUP"],["TAB","CTRL","ALT","LEFT","DOWN","RIGHT","PGDN"]]""")
-       tp.close()
-
-    sleep(2)
-
-    t = 1
-    while t <=7:
-      t = t+1
-      print(g+"["+y+"●"+g+"]"+acn+" terminando processo..."+y+"\\")
-      sleep(0.1)
-      os.system('clear')
-      print(g+"["+y+"●"+g+"]"+g+" terminando processo..."+y+"|")
-      sleep(0.1)
-      os.system('clear')
-      print(g+"["+y+"●"+g+"]"+y+" terminando processo..."+y+"/")
-      sleep(0.1)
-      os.system('clear')
-      print(g+"["+y+"●"+g+"]"+r+" terminando processo..."+y+"-")
-      sleep(0.1)
-      os.system('clear')
-
-    sleep(1)
-    os.system("termux-reload-settings")
-    print (acn+"\n                              ｐｒｏｃｅｓｓｏ ｃｏｍｐｌｅｔｏ")
-    print ("                                ｐｏｒ 👉 ｈａｃｋｅｒ-ｓａ")
-    print ("")
-    print(r+"╔"+"═"*85+"╗")
-    print (r+"║"+g+"OBS: ｐｕｘｅ ｏ teclado da direita para a esquerda para entrar na área de trabalho！"+r+"║")
-    print("╚"+"═"*85+"╝")
-
-#=============================================================
-#"""______:::____::::_____ teclado 3 ______::::____:::_____"""
-#=============================================================
-def m3():
-    os.system("clear")
-    print(ac+"\n\nａｄｉｃｉｏｎａｎｄｏ ｔｅｃｌａｄｏ ｅｓｐｅｃｉａｌ ｎｏ ｔｅｒｍｕｘ！")
-    print ("")
-    progressbar = tqdm([1,2,3,4,5,6,7,8,9,10,11,12,13,13,14,15,16,17,18,20])
-
-    for item in progressbar:
-        sleep(0.2)
-        progressbar.set_description('\033[0m\033[92m PROCESSANDO...{}'.format(item))
-
-    print(v+"═"*72)
-    sleep(2)
-    os.system("clear")
-
-    t = 1
-    while t <= 7:
-      t = t+1
-      print(g+"["+y+"●"+g+"]"+acn+" Recuperando arquivo predeterminado do termux..."+y+"\\")
-      sleep(0.1)
-      os.system('clear')
-      print(g+"["+y+"●"+g+"]"+g+" Recuperando arquivo predeterminado do termux..."+y+"|")
-      sleep(0.1)
-      os.system('clear')
-      print(g+"["+y+"●"+g+"]"+y+" Recuperando arquivo predeterminado do termux..."+y+"/")
-      sleep(0.1)
-      os.system('clear')
-      print(g+"["+y+"●"+g+"]"+r+" Recuperando arquivo predeterminado do termux..."+y+"-")
-      sleep(0.1)
-      os.system('clear')
-
-    try:
-     os.mkdir("/data/data/com.termux/files/home/.termux")
-    except:
-        pass
-    print(g+"["+y+"●"+g+"]"+g+" sucesso "+d+"["+gn+"√"+d+"]")
-    sleep(2)
-
-    t = 1
-    while t <=7:
-      t = t+1
-      print(g+"["+y+"●"+g+"]"+acn+" adicionando botões no teclado predeterminado..."+y+"\\")
-      sleep(0.1)
-      os.system('clear')
-      print(g+"["+y+"●"+g+"]"+g+" adicionando botões no teclado predeterminado..."+y+"|")
-      sleep(0.1)
-      os.system('clear')
-      print(g+"["+y+"●"+g+"]"+y+" adicionando botões no teclado predeterminado..."+y+"/")
-      sleep(0.1)
-      os.system('clear')
-      print(g+"["+y+"●"+g+"]"+r+" adicionando botões no teclado predeterminado..."+y+"-")
-      sleep(0.1)
-      os.system('clear')
-
-    with  open("/data/data/com.termux/files/home/.termux/termux.properties","w") as tp:
-       tp.write("""extra-keys = [["{","}","[","]","*","UP","(",")"],["ESC","/","-","=","HOME","+","END","PGUP"],["TAB","CTRL","ALT","═","LEFT","DOWN","RIGHT","PGDN"]]""")
-       tp.close()
-
-    sleep(2)
-
-    t = 1
-    while t <=7:
-      t = t+1
-      print(g+"["+y+"●"+g+"]"+acn+" terminando processo..."+y+"\\")
-      sleep(0.1)
-      os.system('clear')
-      print(g+"["+y+"●"+g+"]"+g+" terminando processo..."+y+"|")
-      sleep(0.1)
-      os.system('clear')
-      print(g+"["+y+"●"+g+"]"+y+" terminando processo..."+y+"/")
-      sleep(0.1)
-      os.system('clear')
-      print(g+"["+y+"●"+g+"]"+r+" terminando processo..."+y+"-")
-      sleep(0.1)
-      os.system('clear')
-
-    sleep(1)
-    os.system("termux-reload-settings")
-    print (acn+"\n                              ｐｒｏｃｅｓｓｏ ｃｏｍｐｌｅｔｏ")
-    print ("                                ｐｏｒ 👉 ｈａｃｋｅｒ-ｓａ")
-    print ("")
-    print(r+"╔"+"═"*85+"╗")
-    print (r+"║"+g+"OBS: ｐｕｘｅ ｏ teclado da direita para a esquerda para entrar na área de trabalho！"+r+"║")
-    print("╚"+"═"*85+"╝")
-
-#=============================================================
-#"""______:::____::::_____ teclado 4 ______::::____:::_____"""
-#=============================================================
-def m4():
-    os.system("clear")
-    print(ac+"\n\nａｄｉｃｉｏｎａｎｄｏ ｔｅｃｌａｄｏ ｅｓｐｅｃｉａｌ ｎｏ ｔｅｒｍｕｘ！")
-    print ("")
-    progressbar = tqdm([1,2,3,4,5,6,7,8,9,10,11,12,13,13,14,15,16,17,18,20])
-
-    for item in progressbar:
-        sleep(0.2)
-        progressbar.set_description('\033[0m\033[92m PROCESSANDO...{}'.format(item))
-
-    print(v+"═"*72)
-    sleep(2)
-    os.system("clear")
-
-    t = 1
-    while t <= 7:
-      t = t+1
-      print(g+"["+y+"●"+g+"]"+acn+" Recuperando arquivo predeterminado do termux..."+y+"\\")
-      sleep(0.1)
-      os.system('clear')
-      print(g+"["+y+"●"+g+"]"+g+" Recuperando arquivo predeterminado do termux..."+y+"|")
-      sleep(0.1)
-      os.system('clear')
-      print(g+"["+y+"●"+g+"]"+y+" Recuperando arquivo predeterminado do termux..."+y+"/")
-      sleep(0.1)
-      os.system('clear')
-      print(g+"["+y+"●"+g+"]"+r+" Recuperando arquivo predeterminado do termux..."+y+"-")
-      sleep(0.1)
-      os.system('clear')
-
-    try:
-
-     os.mkdir("/data/data/com.termux/files/home/.termux")
-    except:
-         pass
-
-    print(g+"["+y+"●"+g+"]"+g+" sucesso "+d+"["+gn+"√"+d+"]")
-    sleep(2)
-
-    t = 1
-    while t <=7:
-      t = t+1
-      print(g+"["+y+"●"+g+"]"+acn+" adicionando botões no teclado predeterminado..."+y+"\\")
-      sleep(0.1)
-      os.system('clear')
-      print(g+"["+y+"●"+g+"]"+g+" adicionando botões no teclado predeterminado..."+y+"|")
-      sleep(0.1)
-      os.system('clear')
-      print(g+"["+y+"●"+g+"]"+y+" adicionando botões no teclado predeterminado..."+y+"/")
-      sleep(0.1)
-      os.system('clear')
-      print(g+"["+y+"●"+g+"]"+r+" adicionando botões no teclado predeterminado..."+y+"-")
-      sleep(0.1)
-      os.system('clear')
-
-    with  open("/data/data/com.termux/files/home/.termux/termux.properties","w") as tp:
-       tp.write("""extra-keys = [["{}","[]","()","$","UP","#","_"],["ESC","/","-","HOME","+","END","PGUP"],["TAB","CTRL","ALT","LEFT","DOWN","RIGHT","PGDN"]]""")
-       tp.close()
-
-    sleep(2)
-
-    t = 1
-    while t <=7:
-      t = t+1
-      print(g+"["+y+"●"+g+"]"+acn+" terminando processo..."+y+"\\")
-      sleep(0.1)
-      os.system('clear')
-      print(g+"["+y+"●"+g+"]"+g+" terminando processo..."+y+"|")
-      sleep(0.1)
-      os.system('clear')
-      print(g+"["+y+"●"+g+"]"+y+" terminando processo..."+y+"/")
-      sleep(0.1)
-      os.system('clear')
-      print(g+"["+y+"●"+g+"]"+r+" terminando processo..."+y+"-")
-      sleep(0.1)
-      os.system('clear')
-
-    sleep(1)
-    os.system("termux-reload-settings")
-    print (acn+"\n                              ｐｒｏｃｅｓｓｏ ｃｏｍｐｌｅｔｏ")
-    print ("                                ｐｏｒ 👉 ｈａｃｋｅｒ-ｓａ")
-    print ("")
-    print(r+"╔"+"═"*85+"╗")
-    print (r+"║"+g+"OBS: ｐｕｘｅ ｏ teclado da direita para a esquerda para entrar na área de trabalho！"+r+"║")
-    print("╚"+"═"*85+"╝")
-
-#=============================================================
-#"""_____:::___::::_______ teclado 5 _______::::___:::_____"""
-#=============================================================
-def m5():
-    os.system("clear")
-    print(ac+"\n\nａｄｉｃｉｏｎａｎｄｏ ｔｅｃｌａｄｏ ｅｓｐｅｃｉａｌ ｎｏ ｔｅｒｍｕｘ！")
-    print ("")
-    progressbar = tqdm([1,2,3,4,5,6,7,8,9,10,11,12,13,13,14,15,16,17,18,20])
-
-    for item in progressbar:
-        sleep(0.2)
-        progressbar.set_description('\033[0m\033[92m PROCESSANDO...{}'.format(item))
-
-    print(v+"═"*72)
-    sleep(2)
-    os.system("clear")
-
-    t = 1
-    while t <= 7:
-      t = t+1
-      print(g+"["+y+"●"+g+"]"+acn+" Recuperando arquivo predeterminado do termux..."+y+"\\")
-      sleep(0.1)
-      os.system('clear')
-      print(g+"["+y+"●"+g+"]"+g+" Recuperando arquivo predeterminado do termux..."+y+"|")
-      sleep(0.1)
-      os.system('clear')
-      print(g+"["+y+"●"+g+"]"+y+" Recuperando arquivo predeterminado do termux..."+y+"/")
-      sleep(0.1)
-      os.system('clear')
-      print(g+"["+y+"●"+g+"]"+r+" Recuperando arquivo predeterminado do termux..."+y+"-")
-      sleep(0.1)
-      os.system('clear')
-
-    try:
-
-     os.mkdir("/data/data/com.termux/files/home/.termux")
-    except:
-         pass
-
-    print(g+"["+y+"●"+g+"]"+g+" sucesso "+d+"["+gn+"√"+d+"]")
-    sleep(2)
-
-    t = 1
-    while t <=7:
-      t = t+1
-      print(g+"["+y+"●"+g+"]"+acn+" adicionando botões no teclado predeterminado..."+y+"\\")
-      sleep(0.1)
-      os.system('clear')
-      print(g+"["+y+"●"+g+"]"+g+" adicionando botões no teclado predeterminado..."+y+"|")
-      sleep(0.1)
-      os.system('clear')
-      print(g+"["+y+"●"+g+"]"+y+" adicionando botões no teclado predeterminado..."+y+"/")
-      sleep(0.1)
-      os.system('clear')
-      print(g+"["+y+"●"+g+"]"+r+" adicionando botões no teclado predeterminado..."+y+"-")
-      sleep(0.1)
-      os.system('clear')
-
-    with  open("/data/data/com.termux/files/home/.termux/termux.properties","w") as tp:
-       tp.write("""extra-keys = [["{}","[]","()","*","$","UP","#","_"],["ESC","/","-","=","HOME","+","END","PGUP"],["TAB","CTRL","ALT","═","LEFT","DOWN","RIGHT","PGDN"]]""")
-       tp.close()
-
-    sleep(2)
-
-    t = 1
-    while t <=7:
-      t = t+1
-      print(g+"["+y+"●"+g+"]"+acn+" terminando processo..."+y+"\\")
-      sleep(0.1)
-      os.system('clear')
-      print(g+"["+y+"●"+g+"]"+g+" terminando processo..."+y+"|")
-      sleep(0.1)
-      os.system('clear')
-      print(g+"["+y+"●"+g+"]"+y+" terminando processo..."+y+"/")
-      sleep(0.1)
-      os.system('clear')
-      print(g+"["+y+"●"+g+"]"+r+" terminando processo..."+y+"-")
-      sleep(0.1)
-      os.system('clear')
-
-    sleep(1)
-    os.system("termux-reload-settings")
-    print (acn+"\n                              ｐｒｏｃｅｓｓｏ ｃｏｍｐｌｅｔｏ")
-    print ("                                ｐｏｒ 👉 ｈａｃｋｅｒ-ｓａ")
-    print ("")
-    print(r+"╔"+"═"*85+"╗")
-    print (r+"║"+g+"OBS: ｐｕｘｅ ｏ teclado da direita para a esquerda para entrar na área de trabalho！"+r+"║")
-    print("╚"+"═"*85+"╝")
-
-#=============================================================
-#"""____::::___::::_______teclado 6 _______::::____::::____"""
-#=============================================================
-def m6():
-    os.system("clear")
-    print(ac+"\n\nａｄｉｃｉｏｎａｎｄｏ ｔｅｃｌａｄｏ ｅｓｐｅｃｉａｌ ｎｏ ｔｅｒｍｕｘ！")
-    print ("")
-    progressbar = tqdm([1,2,3,4,5,6,7,8,9,10,11,12,13,13,14,15,16,17,18,20])
-
-    for item in progressbar:
-        sleep(0.2)
-        progressbar.set_description('\033[0m\033[92m PROCESSANDO...{}'.format(item))
-
-    print(v+"═"*72)
-    sleep(2)
-    os.system("clear")
-
-    t = 1
-    while t <= 7:
-      t = t+1
-      print(g+"["+y+"●"+g+"]"+acn+" Recuperando arquivo predeterminado do termux..."+y+"\\")
-      sleep(0.1)
-      os.system('clear')
-      print(g+"["+y+"●"+g+"]"+g+" Recuperando arquivo predeterminado do termux..."+y+"|")
-      sleep(0.1)
-      os.system('clear')
-      print(g+"["+y+"●"+g+"]"+y+" Recuperando arquivo predeterminado do termux..."+y+"/")
-      sleep(0.1)
-      os.system('clear')
-      print(g+"["+y+"●"+g+"]"+r+" Recuperando arquivo predeterminado do termux..."+y+"-")
-      sleep(0.1)
-      os.system('clear')
-
-    try:
-     os.mkdir("/data/data/com.termux/files/home/.termux")
-    except:
-        pass
-    print(g+"["+y+"●"+g+"]"+g+" sucesso "+d+"["+gn+"√"+d+"]")
-    sleep(2)
-
-    t = 1
-    while t <=7:
-      t = t+1
-      print(g+"["+y+"●"+g+"]"+acn+" adicionando botões no teclado predeterminado..."+y+"\\")
-      sleep(0.1)
-      os.system('clear')
-      print(g+"["+y+"●"+g+"]"+g+" adicionando botões no teclado predeterminado..."+y+"|")
-      sleep(0.1)
-      os.system('clear')
-      print(g+"["+y+"●"+g+"]"+y+" adicionando botões no teclado predeterminado..."+y+"/")
-      sleep(0.1)
-      os.system('clear')
-      print(g+"["+y+"●"+g+"]"+r+" adicionando botões no teclado predeterminado..."+y+"-")
-      sleep(0.1)
-      os.system('clear')
-
-    with  open("/data/data/com.termux/files/home/.termux/termux.properties","w") as tp:
-       tp.write("""extra-keys = [["╔","╗","╦","▒","░","╭","╮","UP","●","√","✧","▬"],["╚","╝","╩","▀","█","╰","╯","°","¶","▋","☆","PGUP"],["CTRL","╠","╣","║","═","⸍","LEFT","DOWN","RIGHT","⸜","✺","PGDN"]]""")
-       tp.close()
-
-    sleep(2)
-
-    t = 1
-    while t <=7:
-      t = t+1
-      print(g+"["+y+"●"+g+"]"+acn+" terminando processo..."+y+"\\")
-      sleep(0.1)
-      os.system('clear')
-      print(g+"["+y+"●"+g+"]"+g+" terminando processo..."+y+"|")
-      sleep(0.1)
-      os.system('clear')
-      print(g+"["+y+"●"+g+"]"+y+" terminando processo..."+y+"/")
-      sleep(0.1)
-      os.system('clear')
-      print(g+"["+y+"●"+g+"]"+r+" terminando processo..."+y+"-")
-      sleep(0.1)
-      os.system('clear')
-
-    sleep(1)
-    os.system("termux-reload-settings")
-    print (b+"\n                              ｐｒｏｃｅｓｓｏ ｃｏｍｐｌｅｔｏ")
-    print ("                                ｐｏｒ 👉 ｈａｃｋｅｒ-ｓａ")
-    print (gn+"""\neste teclado só pode ser usado em python se vc colocar o nome 👉 #-*- coding:utf8 -*-\nna primeira ou segunda linha do script""")
-    print ("")
-    print(r+"╔"+"═"*85+"╗")
-    print (r+"║"+g+"OBS: ｐｕｘｅ ｏ teclado da direita para a esquerda para entrar na área de trabalho！"+r+"║")
-    print("╚"+"═"*85+"╝")
-
-#=============================================================
-#"""____::::___::::_______teclado 7 _______::::____::::____"""
-#=============================================================
-def m7():
-    os.system("clear")
-    print(ac+"\n\nａｄｉｃｉｏｎａｎｄｏ ｔｅｃｌａｄｏ ｅｓｐｅｃｉａｌ ｎｏ ｔｅｒｍｕｘ！")
-    print ("")
-    progressbar = tqdm([1,2,3,4,5,6,7,8,9,10,11,12,13,13,14,15,16,17,18,20])
-
-    for item in progressbar:
-        sleep(0.2)
-        progressbar.set_description('\033[0m\033[92m PROCESSANDO...{}'.format(item))
-
-    print(v+"═"*72)
-    sleep(2)
-    os.system("clear")
-
-    t = 1
-    while t <= 7:
-      t = t+1
-      print(g+"["+y+"●"+g+"]"+acn+" Recuperando arquivo predeterminado do termux..."+y+"\\")
-      sleep(0.1)
-      os.system('clear')
-      print(g+"["+y+"●"+g+"]"+g+" Recuperando arquivo predeterminado do termux..."+y+"|")
-      sleep(0.1)
-      os.system('clear')
-      print(g+"["+y+"●"+g+"]"+y+" Recuperando arquivo predeterminado do termux..."+y+"/")
-      sleep(0.1)
-      os.system('clear')
-      print(g+"["+y+"●"+g+"]"+r+" Recuperando arquivo predeterminado do termux..."+y+"-")
-      sleep(0.1)
-      os.system('clear')
-
-    try:
-     os.mkdir("/data/data/com.termux/files/home/.termux")
-    except:
-        pass
-    print(g+"["+y+"●"+g+"]"+g+" sucesso "+d+"["+gn+"√"+d+"]")
-    sleep(2)
-
-    t = 1
-    while t <=7:
-      t = t+1
-      print(g+"["+y+"●"+g+"]"+acn+" adicionando botões no teclado predeterminado..."+y+"\\")
-      sleep(0.1)
-      os.system('clear')
-      print(g+"["+y+"●"+g+"]"+g+" adicionando botões no teclado predeterminado..."+y+"|")
-      sleep(0.1)
-      os.system('clear')
-      print(g+"["+y+"●"+g+"]"+y+" adicionando botões no teclado predeterminado..."+y+"/")
-      sleep(0.1)
-      os.system('clear')
-      print(g+"["+y+"●"+g+"]"+r+" adicionando botões no teclado predeterminado..."+y+"-")
-      sleep(0.1)
-      os.system('clear')
-
-    with  open("/data/data/com.termux/files/home/.termux/termux.properties","w") as tp:
-       tp.write("""extra-keys = [["ｑ","ｗ","ｅ","ｒ","ｔ","ｙ","ｕ","UP","ｉ","ｏ","ｐ"],["ESC","ａ","ｓ","ｄ","ｆ","ｇ","ｈ","ｊ","ｋ","ｌ","！"],["CTRL","ｚ","ｘ","ｃ","ｖ","ｂ","LEFT","DOWN","RIGHT","ｎ","ｍ"]]""")
-       tp.close()
-
-    sleep(2)
-
-    t = 1
-    while t <=7:
-      t = t+1
-      print(g+"["+y+"●"+g+"]"+acn+" terminando processo..."+y+"\\")
-      sleep(0.1)
-      os.system('clear')
-      print(g+"["+y+"●"+g+"]"+g+" terminando processo..."+y+"|")
-      sleep(0.1)
-      os.system('clear')
-      print(g+"["+y+"●"+g+"]"+y+" terminando processo..."+y+"/")
-      sleep(0.1)
-      os.system('clear')
-      print(g+"["+y+"●"+g+"]"+r+" terminando processo..."+y+"-")
-      sleep(0.1)
-      os.system('clear')
-
-    sleep(1)
-    os.system("termux-reload-settings")
-    print (b+"\n                              ｐｒｏｃｅｓｓｏ ｃｏｍｐｌｅｔｏ")
-    print ("                                ｐｏｒ 👉 ｈａｃｋｅｒ-ｓａ")
-    print (gn+"""\neste teclado só pode ser usado em python se vc colocar o nome 👉 #-*- coding:utf8 -*-\nna primeira ou segunda linha do script""")
-    print ("")
-    print(r+"╔"+"═"*85+"╗")
-    print (r+"║"+g+"OBS: ｐｕｘｅ ｏ teclado da direita para a esquerda para entrar na área de trabalho！"+r+"║")
-    print("╚"+"═"*85+"╝")
-
-#=============================================================
-#"""_______::::___::::______ about ______::::___::::_______"""
-#=============================================================
-def m8():
-    os.system("clear")
-    print ("\n")
-    print (v+"*" * 70)
-    print (g+"\nｔｅｃｌａｄｏ-ｓａ "+y+"         "+ac+"               ｖｅｒｓａｏ:"+y+"1.0")
-    print ("")
-    print (ac+"ｃｒｉａｄｏ ｐｏｒ:"+y+" ｈａｃｋｅｒ-ｓａ  "+ac+"    ｄａｔａ:"+y+"03/04/2020")
-    print ("")
-    print (ac+"ｍｅｕ ｇｉｔｈｕｂ 👉"+y+" https://github.com/hacker-sa ")
-    print ("")
-    print (v+"*" * 70)
-    print (g+"["+b+"1"+g+"]"+g+"voltar ao menu anterior")
-    print (g+"["+b+"2"+g+"]"+g+"sair")
-    opt2 = raw_input(" o quê deseja fazer? 👉 ")
-    if opt2 in ["1"] or opt2 in ["01"]:
-       restart()
-
-    elif opt2 in ["2"] or opt2 in ["02"]:
-       sair()
-
-    else:
-         os.system("clear")
-         print (g+opt+B+" não é uma opção existente")
-         print (B+"voltando ao menu principal...")
-         sleep(3)
-         restart()
-
-#=============================================================
-#"""___:::____::::____ modo e velocidade2 ____::::___:::___"""
-#=============================================================
-def txt(s):
-    for noobs in s + "\n":
-            sys.stdout.write(noobs)
-            sys.stdout.flush()
-            sleep(110. / 2100)
-
-
-#=============================================================
-#"""_______:::____::::___ menu de saída __::::____:::______"""
-#=============================================================
-def sair():
-    print (g+"qual o seu nome?")
-    nome = raw_input("nome 👉 ")
-    os.system("clear")
-    txt(g+"\nOlá "+nome+" muito obrigado por usar esta ferramenta!!! 👏 criei este \nteclado para facilitar a programação com relação  ao uso dos carácters\ne movimentação do cursor na hora de programar.")
-    sleep(1)
-    txt(g+"Espero tê-lo ajudado...Qualquer dúvida crítica ou sujestão por favor contate-me.\n\nEmail 👉"+b+" hacker-sa02@gmail.com")
-    txt(g+"meu github 👉 "+b+"https://github.com/hacker-sa")
-    sys.exit()
-    Sys.exit()
-
-#=============================================================
-#"""_______:::___::::___função restart __::::____:::_______"""
-#=============================================================
-def restart():
-    r = sys.executable
-    os.execl(r, r, * sys.argv)
-
-def fn():
-    print (y+"ｄｅｓｅｊａ ｔｅｓｔａｒ ｍａｉｓ ａｌｇｕｍ ｔｅｃｌａｄｏ ？")
-    print (g+"["+y+"1"+g+"]"+acn+" testar")
-    print (g+"["+y+"2"+g+"]"+acn+" sair")
-    opt = raw_input(y+"opção 👉 ")
-    if opt in ["1"] or opt in ["01"]:
-       menu2()
-
-    elif opt in ["2"] or opt in ["02"]:
-       sair()
-
-    else:
-        os.system("clear")
-        print (g+opt+B+" não é uma opção existente")
-        print (B+"voltando ao menu principal...")
-        sleep(3)
-        restart()
+import base64
+
+sa = """IyEvdXNyL2Jpbi9lbnYgcHl0aG9uMgojLSotIGNvZGluZzp1dGY4IC0qLQojPT09PT09PT09PT09
+PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PQojX19fX19f
+Xzo6OjpfX19fOjo6Ol9fX19fX2ltcG9ydGHDp8O1ZXNfX19fX186Ojo6X19fXzo6OjpfX19fX19f
+CiM9PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09
+PT09PT09CmltcG9ydCBvcwppbXBvcnQgc3lzCmltcG9ydCByZWFkbGluZQpmcm9tIHRpbWUgaW1w
+b3J0IHNsZWVwCmZyb20gdHFkbSBpbXBvcnQgdHFkbQpmcm9tIHRxZG0gaW1wb3J0IHRyYW5nZQoj
+PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09
+PT09PQojX19fX19fXzo6OjpfX19fOjo6Ol9fX19jb3JlcyBwcmltw6FyaWFzX19fXzo6OjpfX19f
+Ojo6Ol9fX19fX18KIz09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09
+PT09PT09PT09PT09PT09PT0KYyA9ICJcMDMzWzkwbSIgI2NpbnphIG5vcm1hbApyID0gIlwwMzNb
+OTFtIiAjdmVybWVsaG8gbm9ybWFsCmcgPSAiXDAzM1swbVwwMzNbOTJtIiAjdmVyZGUgbm9ybWFs
+CmdpID0gIlwwMzNbM21cMDMzWzkybSIgI3ZlcmRlIGl0YWxpY28KeSA9ICJcMDMzWzkzbSIgI2Ft
+YXJlbG8gbm9ybWFsCkIgPSAiXDAzM1s5NG0iICNhenVsIG5vcm1hbApkID0gIlwwMzNbMG1cMDMz
+Wzk3bSIgI2JyYW5jbyBub3JtYWwKYiA9ICJcMDMzWzBtXDAzM1sxOzM4OzA1OzIwbSIgI2F6dWwg
+Y2xhcm8KIz09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09
+PT09PT09PT09PT0KI19fXzo6X19fOjo6X19fX2NvcmVzIHNlY3VuZMOhcmlhcyBlIHRlcsOnacOh
+cmlhc19fX186OjpfX186Ol9fX18KIz09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09
+PT09PT09PT09PT09PT09PT09PT09PT09PT0KZ24gPSAiXDAzM1s5Mm0iICN2ZXJkZQptID0gIlww
+MzNbM21cMDMzWzE7Mzg7MDU7MTI5bSIgI21hZ2VudGEKdiA9ICJcMDMzWzNtXDAzM1sxOzM4OzA1
+OzIybSIgI3ZlcmRlIGVzY3Vybwp2biA9ICJcMDMzWzBtXDAzM1sxOzM4OzA1OzIybSIgI3ZlcmRl
+IGVzY3Vybwp2YSA9ICJcMDMzWzE7Mzg7MDU7MjNtIiAjdmVyZGUgZXNjdXJvIGNvbSBhenVsCmFj
+ID0gIlwwMzNbM21cMDMzWzE7Mzg7MDU7MjBtIiAjYXp1bCBjbGFybwphY24gPSAiXDAzM1swbVww
+MzNbMTszODswNTsyMG0iICNhenVsIGNsYXJvCmFjMiA9ICJcMDMzWzE7Mzg7MDU7MjE7M20iICNh
+enVsY2xhcm8yCmFjMyA9ICJcMDMzWzBtXDAzM1sxOzM4OzA1OzIxbSIgI2F6dWxjbGFybwphMiA9
+ICJcMDMzWzBtXDAzM1sxOzM4OzA1OzEyOW0iICNhenVsIGVzY3Vybwpvcy5zeXN0ZW0oImNsZWFy
+IikKIz09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09
+PT09PT09PT0KI19fX19fOjo6Ol9fXzo6OjpfX19fX21vZG8gZSB2ZWxvY2lkYWRlX19fX186Ojo6
+X19fXzo6OjpfX19fX18KIz09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09
+PT09PT09PT09PT09PT09PT09PT0KZGVmIHRleHQocyk6CiAgICBmb3Igbm9vYnMgaW4gcyArICJc
+biI6CiAgICAgICAgICAgIHN5cy5zdGRvdXQud3JpdGUobm9vYnMpCiAgICAgICAgICAgIHN5cy5z
+dGRvdXQuZmx1c2goKQogICAgICAgICAgICBzbGVlcCg1LiAvIDIxMDApCgojPT09PT09PT09PT09
+PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PQojX19fX186
+Ojo6X19fOjo6Ol9fX19kZWZpbmljYW8gZG8gYmFubmVyX19fXzo6OjpfX19fOjo6Ol9fX19fXwoj
+PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09
+PT09PQpkZWYgYmFubmVyKCk6CiAgICB0ZXh0IChhYzMrIiIiCgrilqzilqzilqzilqzilqzilqzi
+lqzilqzilqzilqzilqzilqwKICAgICDiloggICAgICAg4paI4paA4paA4paA4paA4paAICDiloji
+loDiloDiloDiloDiloDiloDiloAgIOKWiCAgICAgICAg4paI4paA4paA4paA4paA4paA4paA4paA
+4paIICDilojiloDiloDiloDiloDiloDiloDiloDiuJziuJwgIOKVreKWgOKWgOKWgOKWgOKWgOKW
+gOKVriAgICDilojiloDiloDiloDiloDiloDiloAgIOKWiOKWgOKWgOKWgOKWgOKWgOKWgOKWiAog
+ICAgIOKWiCAgICAgICDiloggICAgICAg4paIICAgICAgICAg4paIICAgICAgICDiloggICAgICAg
+4paIICDiloggICAgICAgIOKWiCAg4paIICAgICAg4paIICAgIOKWiCAgICAgICAg4paIICAgICAg
+4paICiAgICAg4paIICAgICAgIOKWiOKWrOKWrOKWrOKWrOKWrCAg4paIICAgICAgICAg4paIICAg
+ICAgICDilojilqzilqzilqzilqzilqzilqzilqziloggIOKWiCAgICAgICAg4paIICDiloggICAg
+ICDilogg4pas4pasIOKVmuKVkOKVkOKVkOKVkOKVkOKVlyAg4paI4pas4pas4pas4pas4pas4pas
+4paICiAgICAg4paIICAgICAgIOKWiCAgICAgICDiloggICAgICAgICDiloggICAgICAgIOKWiCAg
+ICAgICDiloggIOKWiCAgICAgICAg4paIICDiloggICAgICDiloggICAgICAgICAg4pWRICDilogg
+ICAgICDilogKICAgICDiloggICAgICAg4paIICAgICAgIOKWiCAgICAgICAgIOKWiCAgICAgICAg
+4paIICAgICAgIOKWiCAg4paIICAgICAgICDiloggIOKWiCAgICAgIOKWiCAgICAgICAgICDilogg
+IOKWiCAgICAgIOKWiAogICAgIOKWiCAgICAgICDiloDiloDiloDiloDiloDiloAgIOKWgOKWgOKW
+gOKWgOKWgOKWgOKWgOKWgCAg4paA4paA4paA4paA4paA4paA4paAICDiloggICAgICAg4paIICDi
+loDiloDiloDiloDiloDiloDiloDiloDiuI3iuI0gIOKVsOKWgOKWgOKWgOKWgOKWgOKWgOKVryAg
+ICDiloDiloDiloDiloDiloDiloDiloAgIOKWiCAgICAgIOKWiAogICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIiIiK2crIu+9g++9ku+9he+9ge+9lO+9
+he+9hCDvvYLvvZkg8J+RiSDvvYjvvYHvvYPvvYvvvYXvvZIt772T772BIitnKyIiIgogICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgIO+9lu+9he+9ku+9k++9ie+9j++9jjoyLjAKIiIiKQoKCiM9PT09PT09PT09PT09
+PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09CiMiIiJfX19f
+X19fOjo6Ol9fXzo6OjpfX19fXyBtZW51IDIgX19fX186Ojo6X19fXzo6OjpfX19fX19fIiIiCiM9
+PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09
+PT09CmRlZiBtZW51MigpOgogICAgb3Muc3lzdGVtKCdjbGVhcicpCiAgICBwcmludCAoYWNuKyJc
+bmVzY29saGEgYSBvcMOnw6NvIPCfkYciKQogICAgcHJpbnQgKGcrIiIiCgoiIiIrYisiWyIreSsi
+MSIrYisiXSIrIiIiCiAgICIiIithY24rIlxfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX18iK2crIiIiCiIiIithY24rIiIiICAg4pWRICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICDilZEKIiIiK2FjbisiICAg4pWRIit2KyIgIEVTQyAgIC8gICAtICAgSE9N
+RSAgIFVQICAgRU5EICBQR1VQICIrYWNuKyIiIuKVkQogICDilZEgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgIOKVkQoiIiIrYWNuKyIgICDilZEiK3YrIiBUQUIgQ1RSTCBBTFQg
+IExFRlQgIERPV04gIFJJR0hUIFBHRE4gIithY24rIiIi4pWRCiAgIOKVkSIiIithY24rIl9fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f4pWRIitiKyIiIgoKIiIiKyJbIit5KyIy
+IitiKyJdIisiIiIKICAgIiIiK2FjbisiXF9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX18iK2crIiIiCiIiIithY24rIiIiICAg4pWRICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAg4pWRCiIiIithY24rIiAgIOKVkSIrdisiICB7ICAgIH0gICAgWyAgICAg
+XSAgICAgdXAgICAgKCAgICApICIrYWNuKyIiIiAg4pWRCiAgIOKVkSAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgIOKVkQoiIiIrYWNuKyIgICDilZEiK3YrIiBFU0MgICAvICAg
+IC0gICBIT01FICAgICsgICAgRU5EICBQR1VQICIrYWNuKyIiIuKVkQogICDilZEgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICDilZEKIiIiK2FjbisiICAg4pWRIit2KyIgVEFC
+IENUUkwgIEFMVCAgTEVGVCAgRE9XTiAgUklHSFQgUEdETiAiK2FjbisiIiLilZEKICAg4pWRIiIi
+K2FjbisiX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f4pWRIitiKyIiIgoK
+IiIiKyJbIit5KyIzIitiKyJdIisiIiIKICAgIiIiK2FjbisiXF9fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fXyIrZysiIiIKIiIiK2FjbisiIiIgICDilZEgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIOKVkQoiIiIrYWNuKyIgICDilZEi
+K3YrIiAgIHsgICAgfSAgICBbICAgIF0gICAgKiAgICAgdXAgICAoICAgICkgIithY24rIiIiICAg
+4pWRCiAgIOKVkSAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg4pWR
+CiIiIithY24rIiAgIOKVkSIrdisiIEVTQyAgIC8gICAgLSAgID0gICAgSE9NRSAgICArICAgIEVO
+RCAgUEdVUCAiK2FjbisiIiLilZEKICAg4pWRICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICDilZEKIiIiK2FjbisiICAg4pWRIit2KyIgVEFCIENUUkwgIEFMVCAg4pWQ
+ICAgIExFRlQgIERPV04gIFJJR0hUIFBHRE4gIithY24rIiIi4pWRCiAgIOKVkSIiIithY24rIl9f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f4pWRIitiKyIiIgoKIiIi
+KyJbIit5KyI0IitiKyJdIisiIiIKICAgIiIiK2FjbisiXF9fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX18iK2crIiIiCiIiIithY24rIiIiICAg4pWRICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAg4pWRCiIiIithY24rIiAgIOKVkSIrdisiICB7fSAgIFtd
+ICAgKCkgICAgJCAgICAgVVAgICAgICMgICAgXyAiK2FjbisiIiIg4pWRCiAgIOKVkSAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIOKVkQoiIiIrYWNuKyIgICDilZEiK3YrIiBF
+U0MgICAvICAgIC0gICBIT01FICAgICsgICAgRU5EICBQR1VQICIrYWNuKyIiIuKVkQogICDilZEg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICDilZEKIiIiK2FjbisiICAg4pWR
+Iit2KyIgVEFCIENUUkwgIEFMVCAgTEVGVCAgRE9XTiAgUklHSFQgUEdETiAiK2FjbisiIiLilZEK
+ICAg4pWRIiIiK2FjbisiX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f4pWR
+IitiKyIiIgoKIiIiKyJbIit5KyI1IitiKyJdIisiIiIKICAgIiIiK2FjbisiXF9fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fIitnKyIiIgoiIiIrYWNuKyIiIiAgIOKV
+kSAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICDilZEKIiIiK2Fjbisi
+ICAg4pWRIit2KyIgIHt9ICAgW10gICAoKSAgICogICAgJCAgICAgVVAgICAgICMgICAgXyAiK2Fj
+bisiIiIg4pWRCiAgIOKVkSAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICDilZEKIiIiK2FjbisiICAg4pWRIit2KyIgRVNDICAgLyAgICAtICAgPSAgIEhPTUUgICAgKyAg
+ICBFTkQgIFBHVVAgIithY24rIiIi4pWRCiAgIOKVkSAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICDilZEKIiIiK2FjbisiICAg4pWRIit2KyIgVEFCIENUUkwgIEFMVCAg
+4pWQICAgTEVGVCAgRE9XTiAgUklHSFQgUEdETiAiK2FjbisiIiLilZEKICAg4pWRIiIiK2Fjbisi
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX+KVkSIrYisiIiIKCiIi
+IisiWyIreSsiNiIrYisiXSIrdisiICAgICAgICAgICAgICAgICAgIO+9kO+9ge+9ku+9gSDvvYTv
+vYXvvZPvvYXvvY7vvYjvvY/vvZMiK2FjbisiIiIKICAgIiIiK2FjbisiXF9fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fIitn
+KyIiIgoiIiIrYWNuKyIiIiAgIOKVkSAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICDilZEKIiIiK2FjbisiICAg4pWRIit2bisi
+ICDilZQgICAgICAg4pWXICAgIOKVpiAgICDilpIgICAg4paRICAgIOKVrSAgICAg4pWuICAgICBV
+UCAgICAg4pePICAgICDiiJogICDinKcgICDilqwgICIrYWNuKyIiIiDilZEKICAg4pWRICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgIOKVkQoiIiIrYWNuKyIgICDilZEiK3ZuKyIgIOKVmiAgICAgICDilZ0gICAg4pWpICAgIOKW
+gCAgICDiloggICAg4pWwICAgICDila8gICAgIMKkICAgICAgwrYgICAgIOKWiyAgIOKYhiAgUEdV
+UCAiK2FjbisiIiLilZEKICAg4pWRICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIOKVkQoiIiIrYWNuKyIgICDilZEiK3ZuKyIg
+Q1RSTCAgICAg4pWgICAgIOKVoyAgICDilZEgICAg4pWQICAgIOK4jSAgIExFRlQgICBET1dOICBS
+SUdIVCAgIOK4nCAgIOKcuiAgUEdETiAiK2FjbisiIiLilZEKICAg4pWRIiIiK2FjbisiX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX+KVkSIrYisiIiIKCiIiIisiWyIreSsiNyIrYisiXSIrdisiICAgICAgICAgICAgICAgICAg
+IO+9jO+9he+9lO+9ku+9ge+9kyDvvYfvvZLvvYHvvY7vvYTvvYXvvZMiK2crIiIiCiAgICIiIith
+Y24rIlxfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fXyIrZysiIiIKIiIiK2FjbisiIiIgICDilZEgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg4pWRCiIiIithY24r
+IiAgIOKVkSIrdm4rIiAg772RICAgICDvvZcgICAg772FICAgIO+9kiAgICDvvZQgICAg772ZICAg
+IO+9lSAgICBVUCAgICDvvYkgICDvvY8gICDvvZAgIithY24rIiIi4pWRCiAgIOKVkSAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICDi
+lZEKIiIiK2FjbisiICAg4pWRIit2bisiICBFU0MgICAg772BICAgIO+9kyAgICDvvYQgICAg772G
+ICAgIO+9hyAgICDvvYggICAg772KICAgIO+9iyAgIO+9jCAgIO+8gSAiK2FjbisiIiLilZEKICAg
+4pWRICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgIOKVkQoiIiIrYWNuKyIgICDilZEiK3ZuKyIgQ1RSTCAgICDvvZogICAg772YICAg
+IO+9gyAgICDvvZYgICAg772CICAgTEVGVCAgRE9XTiAgUklHSFQg772OICAg772NICIrYWNuKyIi
+IuKVkQogICDilZEiIiIrYWNuKyJfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19f4pWRIitiKyIiIgoKIiIiK2IrIlsiK3krIu+8mCIr
+YisiXSIrdisiIO+9k++9j++9gu+9ku+9hSIrIiIiCiIiIitiKyJbIit5KyLvvJkiK2IrIl0iK3Yr
+IiDvvZPvvYHvvYnvvZIiKyIiIgoiIiIrYisiWyIreSsi77yR77yQIitiKyJdIit2KyIg772V772Q
+772E772B772U772FIisiIiIKIiIiK2IrIlsiK3krIu+8kO+8kCIrYisiXSIrdisiIiIg772W772P
+772M772U772B772SIO+9ge+9jyDvvZTvvYXvvYPvvYzvvYHvvYTvvY8g772P772S772J772H772J
+772O772B772MIiIiKQoKICAgIHByaW50IChnKQoKIz09PT09PT09PT09PT09PT09PT09PT09PT09
+PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT0KIyIiIl9fX19fXzo6Ol9fX1/il4/i
+l4/il4/il4/il49fX1/imIZfICB1cGRhdGUgIF/imIZfX1/il4/il4/il4/il4/il49fX19fOjo6
+X19fX18iIiIKIz09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09
+PT09PT09PT09PT09PT0KZGVmIHVwZGF0ZSgpOgogICAgaWYgb3MucGF0aC5leGlzdHMoIi9kYXRh
+L2RhdGEvY29tLnRlcm11eC9maWxlcy9ob21lL1RFQ0xBRE8tU0EiKToKICAgICAgcGFzcwogICAg
+ZWxzZToKICAgICAgIG9zLnN5c3RlbSgiY2Q7Z2l0IGNsb25lIGh0dHBzOi8vZ2l0aHViLmNvbS9o
+YWNrZXItc2EvVEVDTEFETy1TQSIpCiAgICAgICBwcmludCAoInVwZGF0ZWQiKQogICAgICAgc3lz
+LmV4aXQoKQogICAgaWYgb3MucGF0aC5leGlzdHMoIi9kYXRhL2RhdGEvY29tLnRlcm11eC9maWxl
+cy9ob21lL1QtU0EiKToKICAgICAgICAgb3Muc3lzdGVtKCJjZDtjZCBULVNBO3B5dGhvbjIgY29u
+ZmlnLnB5IikKICAgICAgICAgc3lzLmV4aXQoKQogICAgZWxzZToKICAgICAgICAgcHJpbnQgKCJm
+YXplbmRvIHVwZGF0ZS4uLiIpCiAgICAgICAgIG9zLnN5c3RlbSgiY2QgL2RhdGEvZGF0YS9jb20u
+dGVybXV4L2ZpbGVzL2hvbWU7bWtkaXIgVC1TQSIpCiAgICAgICAgIG9zLnN5c3RlbSgiY2QgL2Rh
+dGEvZGF0YS9jb20udGVybXV4L2ZpbGVzL2hvbWU7Y2QgVC1TQTtnaXQgY2xvbmUgaHR0cHM6Ly9n
+aXRodWIuY29tL2hhY2tlci1zYS9URUNMQURPLVNBIikKICAgICAgICAgb3Muc3lzdGVtKCJjZCAv
+ZGF0YS9kYXRhL2NvbS50ZXJtdXgvZmlsZXMvaG9tZTtjZCBURUNMQURPLVNBO212IC12IGNvbmZp
+Zy5weSAvZGF0YS9kYXRhL2NvbS50ZXJtdXgvZmlsZXMvaG9tZS9ULVNBO2NkO2NkIFQtU0E7cHl0
+aG9uMiBjb25maWcucHkiKQogICAgICAgICBzeXMuZXhpdCgpCgojPT09PT09PT09PT09PT09PT09
+PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PQojIiIiX19fX19fOjo6
+X19fXzo6OjpfX18gdGVjbGFkbyBvcmduIF9fX186Ojo6X19fXzo6Ol9fX19fIiIiCiM9PT09PT09
+PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09CmRl
+ZiBtbigpOgogICAgb3Muc3lzdGVtKCJjbGVhciIpCiAgICBwcmludChhYysiXG5cbu+9lu+9j++9
+jO+9lO+9ge+9ju+9hO+9jyDvvYHvvY8g772U772F772D772M772B772E772PIO+9j++9ku+9ie+9
+h++9ie+9ju+9ge+9jCDvvYTvvY8g772U772F772S772N772V772Y77yBIikKICAgIHByaW50ICgi
+IikKICAgIHByb2dyZXNzYmFyID0gdHFkbShbMSwyLDMsNCw1LDYsNyw4LDksMTAsMTEsMTIsMTMs
+MTMsMTQsMTUsMTYsMTcsMTgsMjBdKQoKICAgIGZvciBpdGVtIGluIHByb2dyZXNzYmFyOgogICAg
+ICAgIHNsZWVwKDAuMikKICAgICAgICBwcm9ncmVzc2Jhci5zZXRfZGVzY3JpcHRpb24oIlwwMzNb
+MG1cMDMzWzkybSBQUk9DRVNTQU5ETy4uLnt9Ii5mb3JtYXQoaXRlbSkpCgogICAgcHJpbnQodisi
+4pWQIio3MikKICAgIHNsZWVwKDIpCiAgICBvcy5zeXN0ZW0oImNsZWFyIikKCiAgICB0ID0gMQog
+ICAgd2hpbGUgdCA8PSA3OgogICAgICB0ID0gdCsxCiAgICAgIHByaW50KGcrIlsiK3krIuKXjyIr
+ZysiXSIrYWNuKyIgUmVjdXBlcmFuZG8gYXJxdWl2byBwcmVkZXRlcm1pbmFkbyBkbyB0ZXJtdXgu
+Li4iK3krIlxcIikKICAgICAgc2xlZXAoMC4xKQogICAgICBvcy5zeXN0ZW0oJ2NsZWFyJykKICAg
+ICAgcHJpbnQoZysiWyIreSsi4pePIitnKyJdIitnKyIgUmVjdXBlcmFuZG8gYXJxdWl2byBwcmVk
+ZXRlcm1pbmFkbyBkbyB0ZXJtdXguLi4iK3krInwiKQogICAgICBzbGVlcCgwLjEpCiAgICAgIG9z
+LnN5c3RlbSgnY2xlYXInKQogICAgICBwcmludChnKyJbIit5KyLil48iK2crIl0iK3krIiBSZWN1
+cGVyYW5kbyBhcnF1aXZvIHByZWRldGVybWluYWRvIGRvIHRlcm11eC4uLiIreSsiLyIpCiAgICAg
+IHNsZWVwKDAuMSkKICAgICAgb3Muc3lzdGVtKCdjbGVhcicpCiAgICAgIHByaW50KGcrIlsiK3kr
+IuKXjyIrZysiXSIrcisiIFJlY3VwZXJhbmRvIGFycXVpdm8gcHJlZGV0ZXJtaW5hZG8gZG8gdGVy
+bXV4Li4uIit5KyItIikKICAgICAgc2xlZXAoMC4xKQogICAgICBvcy5zeXN0ZW0oJ2NsZWFyJykK
+CiAgICB0cnk6CgogICAgIG9zLm1rZGlyKCIvZGF0YS9kYXRhL2NvbS50ZXJtdXgvZmlsZXMvaG9t
+ZS8udGVybXV4IikKICAgIGV4Y2VwdDoKICAgICAgICBwYXNzCgogICAgcHJpbnQoZysiWyIreSsi
+4pePIitnKyJdIitnKyIgc3VjZXNzbyAiK2QrIlsiK2duKyLiiJoiK2QrIl0iKQogICAgc2xlZXAo
+MikKICAgIG9zLnN5c3RlbSgiY2xlYXIiKQoKICAgIHQgPSAxCiAgICB3aGlsZSB0IDw9NzoKICAg
+ICAgdCA9IHQrMQogICAgICBwcmludChnKyJbIit5KyLil48iK2crIl0iK2FjbisiIGFkaWNpb25h
+bmRvIGJvdMO1ZXMgbm8gdGVjbGFkbyBwcmVkZXRlcm1pbmFkby4uLiIreSsiXFwiKQogICAgICBz
+bGVlcCgwLjEpCiAgICAgIG9zLnN5c3RlbSgnY2xlYXInKQogICAgICBwcmludChnKyJbIit5KyLi
+l48iK2crIl0iK2crIiBhZGljaW9uYW5kbyBib3TDtWVzIG5vIHRlY2xhZG8gcHJlZGV0ZXJtaW5h
+ZG8uLi4iK3krInwiKQogICAgICBzbGVlcCgwLjEpCiAgICAgIG9zLnN5c3RlbSgnY2xlYXInKQog
+ICAgICBwcmludChnKyJbIit5KyLil48iK2crIl0iK3krIiBhZGljaW9uYW5kbyBib3TDtWVzIG5v
+IHRlY2xhZG8gcHJlZGV0ZXJtaW5hZG8uLi4iK3krIi8iKQogICAgICBzbGVlcCgwLjEpCiAgICAg
+IG9zLnN5c3RlbSgnY2xlYXInKQogICAgICBwcmludChnKyJbIit5KyLil48iK2crIl0iK3IrIiBh
+ZGljaW9uYW5kbyBib3TDtWVzIG5vIHRlY2xhZG8gcHJlZGV0ZXJtaW5hZG8uLi4iK3krIi0iKQog
+ICAgICBzbGVlcCgwLjEpCiAgICAgIG9zLnN5c3RlbSgnY2xlYXInKQoKICAgIHdpdGggIG9wZW4o
+Ii9kYXRhL2RhdGEvY29tLnRlcm11eC9maWxlcy9ob21lLy50ZXJtdXgvdGVybXV4LnByb3BlcnRp
+ZXMiLCJ3IikgYXMgdHA6CiAgICAgICB0cC53cml0ZSgiIiJleHRyYS1rZXlzID0gW1siRVNDIiwi
+VEFCIiwiQ1RSTCIsIkFMVCIsIi0iLCJET1dOIiwiVVAiXV0iIiIpCiAgICAgICB0cC5jbG9zZSgp
+CgogICAgc2xlZXAoMikKCiAgICB0ID0gMQogICAgd2hpbGUgdCA8PTc6CiAgICAgIHQgPSB0KzEK
+ICAgICAgcHJpbnQoZysiWyIreSsi4pePIitnKyJdIithY24rIiB0ZXJtaW5hbmRvIHByb2Nlc3Nv
+Li4uIit5KyJcXCIpCiAgICAgIHNsZWVwKDAuMSkKICAgICAgb3Muc3lzdGVtKCdjbGVhcicpCiAg
+ICAgIHByaW50KGcrIlsiK3krIuKXjyIrZysiXSIrZysiIHRlcm1pbmFuZG8gcHJvY2Vzc28uLi4i
+K3krInwiKQogICAgICBzbGVlcCgwLjEpCiAgICAgIG9zLnN5c3RlbSgnY2xlYXInKQogICAgICBw
+cmludChnKyJbIit5KyLil48iK2crIl0iK3krIiB0ZXJtaW5hbmRvIHByb2Nlc3NvLi4uIit5KyIv
+IikKICAgICAgc2xlZXAoMC4xKQogICAgICBvcy5zeXN0ZW0oJ2NsZWFyJykKICAgICAgcHJpbnQo
+ZysiWyIreSsi4pePIitnKyJdIityKyIgdGVybWluYW5kbyBwcm9jZXNzby4uLiIreSsiLSIpCiAg
+ICAgIHNsZWVwKDAuMSkKICAgICAgb3Muc3lzdGVtKCdjbGVhcicpCgogICAgc2xlZXAoMSkKICAg
+IG9zLnN5c3RlbSgidGVybXV4LXJlbG9hZC1zZXR0aW5ncyIpCiAgICBwcmludCAoYWNuKyJcbiAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgIO+9kO+9ku+9j++9g++9he+9k++9k++9jyDvvYPv
+vY/vvY3vvZDvvYzvvYXvvZTvvY8iKQogICAgcHJpbnQgKCIgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgIO+9kO+9j++9kiDwn5GJIO+9iO+9ge+9g++9i++9he+9ki3vvZPvvYEiKQogICAg
+cHJpbnQgKCIiKQogICAgcHJpbnQocisi4pWUIisi4pWQIio4NSsi4pWXIikKICAgIHByaW50IChy
+KyLilZEiK2crIk9CUzog772Q772V772Y772FIO+9jyB0ZWNsYWRvIGRhIGRpcmVpdGEgcGFyYSBh
+IGVzcXVlcmRhIHBhcmEgZW50cmFyIG5hIMOhcmVhIGRlICB0cmFiYWxob++8gSIrcisi4pWRIikK
+ICAgIHByaW50KCLilZoiKyLilZAiKjg1KyLilZ0iKQoKIz09PT09PT09PT09PT09PT09PT09PT09
+PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT0KIyIiIl9fX19fXzo6Ol9fX186
+Ojo6X19fX18gdGVjbGFkbyAxIF9fX19fXzo6OjpfX19fOjo6X19fX18iIiIKIz09PT09PT09PT09
+PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT0KZGVmIG0x
+KCk6CiAgICBvcy5zeXN0ZW0oImNsZWFyIikKICAgIHByaW50KGFjKyJcblxu772B772E772J772D
+772J772P772O772B772O772E772PIO+9lO+9he+9g++9jO+9ge+9hO+9jyDvvYXvvZPvvZDvvYXv
+vYPvvYnvvYHvvYwg772O772PIO+9lO+9he+9ku+9je+9le+9mO+8gSIpCiAgICBwcmludCAoIiIp
+CiAgICBwcm9ncmVzc2JhciA9IHRxZG0oWzEsMiwzLDQsNSw2LDcsOCw5LDEwLDExLDEyLDEzLDEz
+LDE0LDE1LDE2LDE3LDE4LDIwXSkKCiAgICBmb3IgaXRlbSBpbiBwcm9ncmVzc2JhcjoKICAgICAg
+ICBzbGVlcCgwLjIpCiAgICAgICAgcHJvZ3Jlc3NiYXIuc2V0X2Rlc2NyaXB0aW9uKCdcMDMzWzBt
+XDAzM1s5Mm0gUFJPQ0VTU0FORE8uLi57fScuZm9ybWF0KGl0ZW0pKQoKICAgIHByaW50KHYrIuKV
+kCIqNzIpCiAgICBzbGVlcCgyKQogICAgb3Muc3lzdGVtKCJjbGVhciIpCgogICAgdCA9IDEKICAg
+IHdoaWxlIHQgPD0gNzoKICAgICAgdCA9IHQrMQogICAgICBwcmludChnKyJbIit5KyLil48iK2cr
+Il0iK2FjbisiIFJlY3VwZXJhbmRvIGFycXVpdm8gcHJlZGV0ZXJtaW5hZG8gZG8gdGVybXV4Li4u
+Iit5KyJcXCIpCiAgICAgIHNsZWVwKDAuMSkKICAgICAgb3Muc3lzdGVtKCdjbGVhcicpCiAgICAg
+IHByaW50KGcrIlsiK3krIuKXjyIrZysiXSIrZysiIFJlY3VwZXJhbmRvIGFycXVpdm8gcHJlZGV0
+ZXJtaW5hZG8gZG8gdGVybXV4Li4uIit5KyJ8IikKICAgICAgc2xlZXAoMC4xKQogICAgICBvcy5z
+eXN0ZW0oJ2NsZWFyJykKICAgICAgcHJpbnQoZysiWyIreSsi4pePIitnKyJdIit5KyIgUmVjdXBl
+cmFuZG8gYXJxdWl2byBwcmVkZXRlcm1pbmFkbyBkbyB0ZXJtdXguLi4iK3krIi8iKQogICAgICBz
+bGVlcCgwLjEpCiAgICAgIG9zLnN5c3RlbSgnY2xlYXInKQogICAgICBwcmludChnKyJbIit5KyLi
+l48iK2crIl0iK3IrIiBSZWN1cGVyYW5kbyBhcnF1aXZvIHByZWRldGVybWluYWRvIGRvIHRlcm11
+eC4uLiIreSsiLSIpCiAgICAgIHNsZWVwKDAuMSkKICAgICAgb3Muc3lzdGVtKCdjbGVhcicpCgog
+ICAgdHJ5OgoKICAgICBvcy5ta2RpcigiL2RhdGEvZGF0YS9jb20udGVybXV4L2ZpbGVzL2hvbWUv
+LnRlcm11eCIpCiAgICBleGNlcHQ6CiAgICAgICAgcGFzcwoKICAgIHByaW50KGcrIlsiK3krIuKX
+jyIrZysiXSIrZysiIHN1Y2Vzc28gIitkKyJbIitnbisi4oiaIitkKyJdIikKICAgIHNsZWVwKDIp
+CiAgICBvcy5zeXN0ZW0oImNsZWFyIikKCiAgICB0ID0gMQogICAgd2hpbGUgdCA8PTc6CiAgICAg
+IHQgPSB0KzEKICAgICAgcHJpbnQoZysiWyIreSsi4pePIitnKyJdIithY24rIiBhZGljaW9uYW5k
+byBib3TDtWVzIG5vIHRlY2xhZG8gcHJlZGV0ZXJtaW5hZG8uLi4iK3krIlxcIikKICAgICAgc2xl
+ZXAoMC4xKQogICAgICBvcy5zeXN0ZW0oJ2NsZWFyJykKICAgICAgcHJpbnQoZysiWyIreSsi4peP
+IitnKyJdIitnKyIgYWRpY2lvbmFuZG8gYm90w7VlcyBubyB0ZWNsYWRvIHByZWRldGVybWluYWRv
+Li4uIit5KyJ8IikKICAgICAgc2xlZXAoMC4xKQogICAgICBvcy5zeXN0ZW0oJ2NsZWFyJykKICAg
+ICAgcHJpbnQoZysiWyIreSsi4pePIitnKyJdIit5KyIgYWRpY2lvbmFuZG8gYm90w7VlcyBubyB0
+ZWNsYWRvIHByZWRldGVybWluYWRvLi4uIit5KyIvIikKICAgICAgc2xlZXAoMC4xKQogICAgICBv
+cy5zeXN0ZW0oJ2NsZWFyJykKICAgICAgcHJpbnQoZysiWyIreSsi4pePIitnKyJdIityKyIgYWRp
+Y2lvbmFuZG8gYm90w7VlcyBubyB0ZWNsYWRvIHByZWRldGVybWluYWRvLi4uIit5KyItIikKICAg
+ICAgc2xlZXAoMC4xKQogICAgICBvcy5zeXN0ZW0oJ2NsZWFyJykKCiAgICB3aXRoICBvcGVuKCIv
+ZGF0YS9kYXRhL2NvbS50ZXJtdXgvZmlsZXMvaG9tZS8udGVybXV4L3Rlcm11eC5wcm9wZXJ0aWVz
+IiwidyIpIGFzIHRwOgogICAgICAgdHAud3JpdGUoIiIiZXh0cmEta2V5cyA9IFtbIkVTQyIsIi8i
+LCItIiwiSE9NRSIsIlVQIiwiRU5EIiwiUEdVUCJdLFsiVEFCIiwiQ1RSTCIsIkFMVCIsIkxFRlQi
+LCJET1dOIiwiUklHSFQiLCJQR0ROIl1dIiIiKQogICAgICAgdHAuY2xvc2UoKQoKICAgIHNsZWVw
+KDIpCgogICAgdCA9IDEKICAgIHdoaWxlIHQgPD03OgogICAgICB0ID0gdCsxCiAgICAgIHByaW50
+KGcrIlsiK3krIuKXjyIrZysiXSIrYWNuKyIgdGVybWluYW5kbyBwcm9jZXNzby4uLiIreSsiXFwi
+KQogICAgICBzbGVlcCgwLjEpCiAgICAgIG9zLnN5c3RlbSgnY2xlYXInKQogICAgICBwcmludChn
+KyJbIit5KyLil48iK2crIl0iK2crIiB0ZXJtaW5hbmRvIHByb2Nlc3NvLi4uIit5KyJ8IikKICAg
+ICAgc2xlZXAoMC4xKQogICAgICBvcy5zeXN0ZW0oJ2NsZWFyJykKICAgICAgcHJpbnQoZysiWyIr
+eSsi4pePIitnKyJdIit5KyIgdGVybWluYW5kbyBwcm9jZXNzby4uLiIreSsiLyIpCiAgICAgIHNs
+ZWVwKDAuMSkKICAgICAgb3Muc3lzdGVtKCdjbGVhcicpCiAgICAgIHByaW50KGcrIlsiK3krIuKX
+jyIrZysiXSIrcisiIHRlcm1pbmFuZG8gcHJvY2Vzc28uLi4iK3krIi0iKQogICAgICBzbGVlcCgw
+LjEpCiAgICAgIG9zLnN5c3RlbSgnY2xlYXInKQoKICAgIHNsZWVwKDEpCiAgICBvcy5zeXN0ZW0o
+InRlcm11eC1yZWxvYWQtc2V0dGluZ3MiKQogICAgcHJpbnQgKGFjbisiXG4gICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICDvvZDvvZLvvY/vvYPvvYXvvZPvvZPvvY8g772D772P772N772Q772M
+772F772U772PIikKICAgIHByaW50ICgiICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICDv
+vZDvvY/vvZIg8J+RiSDvvYjvvYHvvYPvvYvvvYXvvZIt772T772BIikKICAgIHByaW50ICgiIikK
+ICAgIHByaW50KHIrIuKVlCIrIuKVkCIqODUrIuKVlyIpCiAgICBwcmludCAocisi4pWRIitnKyJP
+QlM6IO+9kO+9le+9mO+9hSDvvY8gdGVjbGFkbyBkYSBkaXJlaXRhIHBhcmEgYSBlc3F1ZXJkYSBw
+YXJhIGVudHJhciBuYSDDoXJlYSBkZSB0cmFiYWxob++8gSIrcisi4pWRIikKICAgIHByaW50KCLi
+lZoiKyLilZAiKjg1KyLilZ0iKQoKIz09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09
+PT09PT09PT09PT09PT09PT09PT09PT09PT0KIyIiIl9fX186Ojo6X19fOjo6Ol9fX19fX190ZWNs
+YWRvIDIgX19fX19fXzo6OjpfX19fOjo6Ol9fX18iIiIKIz09PT09PT09PT09PT09PT09PT09PT09
+PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT0KZGVmIG0yKCk6CiAgICBvcy5z
+eXN0ZW0oImNsZWFyIikKICAgIHByaW50KGFjKyJcblxu772B772E772J772D772J772P772O772B
+772O772E772PIO+9lO+9he+9g++9jO+9ge+9hO+9jyDvvYXvvZPvvZDvvYXvvYPvvYnvvYHvvYwg
+772O772PIO+9lO+9he+9ku+9je+9le+9mO+8gSIpCiAgICBwcmludCAoIiIpCiAgICBwcm9ncmVz
+c2JhciA9IHRxZG0oWzEsMiwzLDQsNSw2LDcsOCw5LDEwLDExLDEyLDEzLDEzLDE0LDE1LDE2LDE3
+LDE4LDIwXSkKCiAgICBmb3IgaXRlbSBpbiBwcm9ncmVzc2JhcjoKICAgICAgICBzbGVlcCgwLjIp
+CiAgICAgICAgcHJvZ3Jlc3NiYXIuc2V0X2Rlc2NyaXB0aW9uKCdcMDMzWzBtXDAzM1s5Mm0gUFJP
+Q0VTU0FORE8uLi57fScuZm9ybWF0KGl0ZW0pKQoKICAgIHByaW50KHYrIuKVkCIqNzIpCiAgICBz
+bGVlcCgyKQogICAgb3Muc3lzdGVtKCJjbGVhciIpCgogICAgdCA9IDEKICAgIHdoaWxlIHQgPD0g
+NzoKICAgICAgdCA9IHQrMQogICAgICBwcmludChnKyJbIit5KyLil48iK2crIl0iK2FjbisiIFJl
+Y3VwZXJhbmRvIGFycXVpdm8gcHJlZGV0ZXJtaW5hZG8gZG8gdGVybXV4Li4uIit5KyJcXCIpCiAg
+ICAgIHNsZWVwKDAuMSkKICAgICAgb3Muc3lzdGVtKCdjbGVhcicpCiAgICAgIHByaW50KGcrIlsi
+K3krIuKXjyIrZysiXSIrZysiIFJlY3VwZXJhbmRvIGFycXVpdm8gcHJlZGV0ZXJtaW5hZG8gZG8g
+dGVybXV4Li4uIit5KyJ8IikKICAgICAgc2xlZXAoMC4xKQogICAgICBvcy5zeXN0ZW0oJ2NsZWFy
+JykKICAgICAgcHJpbnQoZysiWyIreSsi4pePIitnKyJdIit5KyIgUmVjdXBlcmFuZG8gYXJxdWl2
+byBwcmVkZXRlcm1pbmFkbyBkbyB0ZXJtdXguLi4iK3krIi8iKQogICAgICBzbGVlcCgwLjEpCiAg
+ICAgIG9zLnN5c3RlbSgnY2xlYXInKQogICAgICBwcmludChnKyJbIit5KyLil48iK2crIl0iK3Ir
+IiBSZWN1cGVyYW5kbyBhcnF1aXZvIHByZWRldGVybWluYWRvIGRvIHRlcm11eC4uLiIreSsiLSIp
+CiAgICAgIHNsZWVwKDAuMSkKICAgICAgb3Muc3lzdGVtKCdjbGVhcicpCgogICAgdHJ5OgogICAg
+IG9zLm1rZGlyKCIvZGF0YS9kYXRhL2NvbS50ZXJtdXgvZmlsZXMvaG9tZS8udGVybXV4IikKICAg
+IGV4Y2VwdDoKICAgICAgICBwYXNzCiAgICBwcmludChnKyJbIit5KyLil48iK2crIl0iK2crIiBz
+dWNlc3NvICIrZCsiWyIrZ24rIuKImiIrZCsiXSIpCiAgICBzbGVlcCgyKQogICAgb3Muc3lzdGVt
+KCJjbGVhciIpCgogICAgdCA9IDEKICAgIHdoaWxlIHQgPD03OgogICAgICB0ID0gdCsxCiAgICAg
+IHByaW50KGcrIlsiK3krIuKXjyIrZysiXSIrYWNuKyIgYWRpY2lvbmFuZG8gYm90w7VlcyBubyB0
+ZWNsYWRvIHByZWRldGVybWluYWRvLi4uIit5KyJcXCIpCiAgICAgIHNsZWVwKDAuMSkKICAgICAg
+b3Muc3lzdGVtKCdjbGVhcicpCiAgICAgIHByaW50KGcrIlsiK3krIuKXjyIrZysiXSIrZysiIGFk
+aWNpb25hbmRvIGJvdMO1ZXMgbm8gdGVjbGFkbyBwcmVkZXRlcm1pbmFkby4uLiIreSsifCIpCiAg
+ICAgIHNsZWVwKDAuMSkKICAgICAgb3Muc3lzdGVtKCdjbGVhcicpCiAgICAgIHByaW50KGcrIlsi
+K3krIuKXjyIrZysiXSIreSsiIGFkaWNpb25hbmRvIGJvdMO1ZXMgbm8gdGVjbGFkbyBwcmVkZXRl
+cm1pbmFkby4uLiIreSsiLyIpCiAgICAgIHNsZWVwKDAuMSkKICAgICAgb3Muc3lzdGVtKCdjbGVh
+cicpCiAgICAgIHByaW50KGcrIlsiK3krIuKXjyIrZysiXSIrcisiIGFkaWNpb25hbmRvIGJvdMO1
+ZXMgbm8gdGVjbGFkbyBwcmVkZXRlcm1pbmFkby4uLiIreSsiLSIpCiAgICAgIHNsZWVwKDAuMSkK
+ICAgICAgb3Muc3lzdGVtKCdjbGVhcicpCgogICAgd2l0aCAgb3BlbigiL2RhdGEvZGF0YS9jb20u
+dGVybXV4L2ZpbGVzL2hvbWUvLnRlcm11eC90ZXJtdXgucHJvcGVydGllcyIsInciKSBhcyB0cDoK
+ICAgICAgIHRwLndyaXRlKCIiImV4dHJhLWtleXMgPSBbWyJ7IiwifSIsIlsiLCJdIiwiVVAiLCIo
+IiwiKSJdLFsiRVNDIiwiLyIsIi0iLCJIT01FIiwiKyIsIkVORCIsIlBHVVAiXSxbIlRBQiIsIkNU
+UkwiLCJBTFQiLCJMRUZUIiwiRE9XTiIsIlJJR0hUIiwiUEdETiJdXSIiIikKICAgICAgIHRwLmNs
+b3NlKCkKCiAgICBzbGVlcCgyKQoKICAgIHQgPSAxCiAgICB3aGlsZSB0IDw9NzoKICAgICAgdCA9
+IHQrMQogICAgICBwcmludChnKyJbIit5KyLil48iK2crIl0iK2FjbisiIHRlcm1pbmFuZG8gcHJv
+Y2Vzc28uLi4iK3krIlxcIikKICAgICAgc2xlZXAoMC4xKQogICAgICBvcy5zeXN0ZW0oJ2NsZWFy
+JykKICAgICAgcHJpbnQoZysiWyIreSsi4pePIitnKyJdIitnKyIgdGVybWluYW5kbyBwcm9jZXNz
+by4uLiIreSsifCIpCiAgICAgIHNsZWVwKDAuMSkKICAgICAgb3Muc3lzdGVtKCdjbGVhcicpCiAg
+ICAgIHByaW50KGcrIlsiK3krIuKXjyIrZysiXSIreSsiIHRlcm1pbmFuZG8gcHJvY2Vzc28uLi4i
+K3krIi8iKQogICAgICBzbGVlcCgwLjEpCiAgICAgIG9zLnN5c3RlbSgnY2xlYXInKQogICAgICBw
+cmludChnKyJbIit5KyLil48iK2crIl0iK3IrIiB0ZXJtaW5hbmRvIHByb2Nlc3NvLi4uIit5KyIt
+IikKICAgICAgc2xlZXAoMC4xKQogICAgICBvcy5zeXN0ZW0oJ2NsZWFyJykKCiAgICBzbGVlcCgx
+KQogICAgb3Muc3lzdGVtKCJ0ZXJtdXgtcmVsb2FkLXNldHRpbmdzIikKICAgIHByaW50IChhY24r
+IlxuICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg772Q772S772P772D772F772T772T772P
+IO+9g++9j++9je+9kO+9jO+9he+9lO+9jyIpCiAgICBwcmludCAoIiAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAg772Q772P772SIPCfkYkg772I772B772D772L772F772SLe+9k++9gSIp
+CiAgICBwcmludCAoIiIpCiAgICBwcmludChyKyLilZQiKyLilZAiKjg1KyLilZciKQogICAgcHJp
+bnQgKHIrIuKVkSIrZysiT0JTOiDvvZDvvZXvvZjvvYUg772PIHRlY2xhZG8gZGEgZGlyZWl0YSBw
+YXJhIGEgZXNxdWVyZGEgcGFyYSBlbnRyYXIgbmEgw6FyZWEgZGUgdHJhYmFsaG/vvIEiK3IrIuKV
+kSIpCiAgICBwcmludCgi4pWaIisi4pWQIio4NSsi4pWdIikKCiM9PT09PT09PT09PT09PT09PT09
+PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09CiMiIiJfX19fX186Ojpf
+X19fOjo6Ol9fX19fIHRlY2xhZG8gMyBfX19fX186Ojo6X19fXzo6Ol9fX19fIiIiCiM9PT09PT09
+PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09CmRl
+ZiBtMygpOgogICAgb3Muc3lzdGVtKCJjbGVhciIpCiAgICBwcmludChhYysiXG5cbu+9ge+9hO+9
+ie+9g++9ie+9j++9ju+9ge+9ju+9hO+9jyDvvZTvvYXvvYPvvYzvvYHvvYTvvY8g772F772T772Q
+772F772D772J772B772MIO+9ju+9jyDvvZTvvYXvvZLvvY3vvZXvvZjvvIEiKQogICAgcHJpbnQg
+KCIiKQogICAgcHJvZ3Jlc3NiYXIgPSB0cWRtKFsxLDIsMyw0LDUsNiw3LDgsOSwxMCwxMSwxMiwx
+MywxMywxNCwxNSwxNiwxNywxOCwyMF0pCgogICAgZm9yIGl0ZW0gaW4gcHJvZ3Jlc3NiYXI6CiAg
+ICAgICAgc2xlZXAoMC4yKQogICAgICAgIHByb2dyZXNzYmFyLnNldF9kZXNjcmlwdGlvbignXDAz
+M1swbVwwMzNbOTJtIFBST0NFU1NBTkRPLi4ue30nLmZvcm1hdChpdGVtKSkKCiAgICBwcmludCh2
+KyLilZAiKjcyKQogICAgc2xlZXAoMikKICAgIG9zLnN5c3RlbSgiY2xlYXIiKQoKICAgIHQgPSAx
+CiAgICB3aGlsZSB0IDw9IDc6CiAgICAgIHQgPSB0KzEKICAgICAgcHJpbnQoZysiWyIreSsi4peP
+IitnKyJdIithY24rIiBSZWN1cGVyYW5kbyBhcnF1aXZvIHByZWRldGVybWluYWRvIGRvIHRlcm11
+eC4uLiIreSsiXFwiKQogICAgICBzbGVlcCgwLjEpCiAgICAgIG9zLnN5c3RlbSgnY2xlYXInKQog
+ICAgICBwcmludChnKyJbIit5KyLil48iK2crIl0iK2crIiBSZWN1cGVyYW5kbyBhcnF1aXZvIHBy
+ZWRldGVybWluYWRvIGRvIHRlcm11eC4uLiIreSsifCIpCiAgICAgIHNsZWVwKDAuMSkKICAgICAg
+b3Muc3lzdGVtKCdjbGVhcicpCiAgICAgIHByaW50KGcrIlsiK3krIuKXjyIrZysiXSIreSsiIFJl
+Y3VwZXJhbmRvIGFycXVpdm8gcHJlZGV0ZXJtaW5hZG8gZG8gdGVybXV4Li4uIit5KyIvIikKICAg
+ICAgc2xlZXAoMC4xKQogICAgICBvcy5zeXN0ZW0oJ2NsZWFyJykKICAgICAgcHJpbnQoZysiWyIr
+eSsi4pePIitnKyJdIityKyIgUmVjdXBlcmFuZG8gYXJxdWl2byBwcmVkZXRlcm1pbmFkbyBkbyB0
+ZXJtdXguLi4iK3krIi0iKQogICAgICBzbGVlcCgwLjEpCiAgICAgIG9zLnN5c3RlbSgnY2xlYXIn
+KQoKICAgIHRyeToKICAgICBvcy5ta2RpcigiL2RhdGEvZGF0YS9jb20udGVybXV4L2ZpbGVzL2hv
+bWUvLnRlcm11eCIpCiAgICBleGNlcHQ6CiAgICAgICAgcGFzcwogICAgcHJpbnQoZysiWyIreSsi
+4pePIitnKyJdIitnKyIgc3VjZXNzbyAiK2QrIlsiK2duKyLiiJoiK2QrIl0iKQogICAgc2xlZXAo
+MikKICAgIG9zLnN5c3RlbSgiY2xlYXIiKQoKICAgIHQgPSAxCiAgICB3aGlsZSB0IDw9NzoKICAg
+ICAgdCA9IHQrMQogICAgICBwcmludChnKyJbIit5KyLil48iK2crIl0iK2FjbisiIGFkaWNpb25h
+bmRvIGJvdMO1ZXMgbm8gdGVjbGFkbyBwcmVkZXRlcm1pbmFkby4uLiIreSsiXFwiKQogICAgICBz
+bGVlcCgwLjEpCiAgICAgIG9zLnN5c3RlbSgnY2xlYXInKQogICAgICBwcmludChnKyJbIit5KyLi
+l48iK2crIl0iK2crIiBhZGljaW9uYW5kbyBib3TDtWVzIG5vIHRlY2xhZG8gcHJlZGV0ZXJtaW5h
+ZG8uLi4iK3krInwiKQogICAgICBzbGVlcCgwLjEpCiAgICAgIG9zLnN5c3RlbSgnY2xlYXInKQog
+ICAgICBwcmludChnKyJbIit5KyLil48iK2crIl0iK3krIiBhZGljaW9uYW5kbyBib3TDtWVzIG5v
+IHRlY2xhZG8gcHJlZGV0ZXJtaW5hZG8uLi4iK3krIi8iKQogICAgICBzbGVlcCgwLjEpCiAgICAg
+IG9zLnN5c3RlbSgnY2xlYXInKQogICAgICBwcmludChnKyJbIit5KyLil48iK2crIl0iK3IrIiBh
+ZGljaW9uYW5kbyBib3TDtWVzIG5vIHRlY2xhZG8gcHJlZGV0ZXJtaW5hZG8uLi4iK3krIi0iKQog
+ICAgICBzbGVlcCgwLjEpCiAgICAgIG9zLnN5c3RlbSgnY2xlYXInKQoKICAgIHdpdGggIG9wZW4o
+Ii9kYXRhL2RhdGEvY29tLnRlcm11eC9maWxlcy9ob21lLy50ZXJtdXgvdGVybXV4LnByb3BlcnRp
+ZXMiLCJ3IikgYXMgdHA6CiAgICAgICB0cC53cml0ZSgiIiJleHRyYS1rZXlzID0gW1sieyIsIn0i
+LCJbIiwiXSIsIioiLCJVUCIsIigiLCIpIl0sWyJFU0MiLCIvIiwiLSIsIj0iLCJIT01FIiwiKyIs
+IkVORCIsIlBHVVAiXSxbIlRBQiIsIkNUUkwiLCJBTFQiLCLilZAiLCJMRUZUIiwiRE9XTiIsIlJJ
+R0hUIiwiUEdETiJdXSIiIikKICAgICAgIHRwLmNsb3NlKCkKCiAgICBzbGVlcCgyKQoKICAgIHQg
+PSAxCiAgICB3aGlsZSB0IDw9NzoKICAgICAgdCA9IHQrMQogICAgICBwcmludChnKyJbIit5KyLi
+l48iK2crIl0iK2FjbisiIHRlcm1pbmFuZG8gcHJvY2Vzc28uLi4iK3krIlxcIikKICAgICAgc2xl
+ZXAoMC4xKQogICAgICBvcy5zeXN0ZW0oJ2NsZWFyJykKICAgICAgcHJpbnQoZysiWyIreSsi4peP
+IitnKyJdIitnKyIgdGVybWluYW5kbyBwcm9jZXNzby4uLiIreSsifCIpCiAgICAgIHNsZWVwKDAu
+MSkKICAgICAgb3Muc3lzdGVtKCdjbGVhcicpCiAgICAgIHByaW50KGcrIlsiK3krIuKXjyIrZysi
+XSIreSsiIHRlcm1pbmFuZG8gcHJvY2Vzc28uLi4iK3krIi8iKQogICAgICBzbGVlcCgwLjEpCiAg
+ICAgIG9zLnN5c3RlbSgnY2xlYXInKQogICAgICBwcmludChnKyJbIit5KyLil48iK2crIl0iK3Ir
+IiB0ZXJtaW5hbmRvIHByb2Nlc3NvLi4uIit5KyItIikKICAgICAgc2xlZXAoMC4xKQogICAgICBv
+cy5zeXN0ZW0oJ2NsZWFyJykKCiAgICBzbGVlcCgxKQogICAgb3Muc3lzdGVtKCJ0ZXJtdXgtcmVs
+b2FkLXNldHRpbmdzIikKICAgIHByaW50IChhY24rIlxuICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAg772Q772S772P772D772F772T772T772PIO+9g++9j++9je+9kO+9jO+9he+9lO+9jyIp
+CiAgICBwcmludCAoIiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg772Q772P772SIPCf
+kYkg772I772B772D772L772F772SLe+9k++9gSIpCiAgICBwcmludCAoIiIpCiAgICBwcmludChy
+KyLilZQiKyLilZAiKjg1KyLilZciKQogICAgcHJpbnQgKHIrIuKVkSIrZysiT0JTOiDvvZDvvZXv
+vZjvvYUg772PIHRlY2xhZG8gZGEgZGlyZWl0YSBwYXJhIGEgZXNxdWVyZGEgcGFyYSBlbnRyYXIg
+bmEgw6FyZWEgZGUgdHJhYmFsaG/vvIEiK3IrIuKVkSIpCiAgICBwcmludCgi4pWaIisi4pWQIio4
+NSsi4pWdIikKCiM9PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09
+PT09PT09PT09PT09PT09CiMiIiJfX19fX186OjpfX19fOjo6Ol9fX19fIHRlY2xhZG8gNCBfX19f
+X186Ojo6X19fXzo6Ol9fX19fIiIiCiM9PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09
+PT09PT09PT09PT09PT09PT09PT09PT09PT09CmRlZiBtNCgpOgogICAgb3Muc3lzdGVtKCJjbGVh
+ciIpCiAgICBwcmludChhYysiXG5cbu+9ge+9hO+9ie+9g++9ie+9j++9ju+9ge+9ju+9hO+9jyDv
+vZTvvYXvvYPvvYzvvYHvvYTvvY8g772F772T772Q772F772D772J772B772MIO+9ju+9jyDvvZTv
+vYXvvZLvvY3vvZXvvZjvvIEiKQogICAgcHJpbnQgKCIiKQogICAgcHJvZ3Jlc3NiYXIgPSB0cWRt
+KFsxLDIsMyw0LDUsNiw3LDgsOSwxMCwxMSwxMiwxMywxMywxNCwxNSwxNiwxNywxOCwyMF0pCgog
+ICAgZm9yIGl0ZW0gaW4gcHJvZ3Jlc3NiYXI6CiAgICAgICAgc2xlZXAoMC4yKQogICAgICAgIHBy
+b2dyZXNzYmFyLnNldF9kZXNjcmlwdGlvbignXDAzM1swbVwwMzNbOTJtIFBST0NFU1NBTkRPLi4u
+e30nLmZvcm1hdChpdGVtKSkKCiAgICBwcmludCh2KyLilZAiKjcyKQogICAgc2xlZXAoMikKICAg
+IG9zLnN5c3RlbSgiY2xlYXIiKQoKICAgIHQgPSAxCiAgICB3aGlsZSB0IDw9IDc6CiAgICAgIHQg
+PSB0KzEKICAgICAgcHJpbnQoZysiWyIreSsi4pePIitnKyJdIithY24rIiBSZWN1cGVyYW5kbyBh
+cnF1aXZvIHByZWRldGVybWluYWRvIGRvIHRlcm11eC4uLiIreSsiXFwiKQogICAgICBzbGVlcCgw
+LjEpCiAgICAgIG9zLnN5c3RlbSgnY2xlYXInKQogICAgICBwcmludChnKyJbIit5KyLil48iK2cr
+Il0iK2crIiBSZWN1cGVyYW5kbyBhcnF1aXZvIHByZWRldGVybWluYWRvIGRvIHRlcm11eC4uLiIr
+eSsifCIpCiAgICAgIHNsZWVwKDAuMSkKICAgICAgb3Muc3lzdGVtKCdjbGVhcicpCiAgICAgIHBy
+aW50KGcrIlsiK3krIuKXjyIrZysiXSIreSsiIFJlY3VwZXJhbmRvIGFycXVpdm8gcHJlZGV0ZXJt
+aW5hZG8gZG8gdGVybXV4Li4uIit5KyIvIikKICAgICAgc2xlZXAoMC4xKQogICAgICBvcy5zeXN0
+ZW0oJ2NsZWFyJykKICAgICAgcHJpbnQoZysiWyIreSsi4pePIitnKyJdIityKyIgUmVjdXBlcmFu
+ZG8gYXJxdWl2byBwcmVkZXRlcm1pbmFkbyBkbyB0ZXJtdXguLi4iK3krIi0iKQogICAgICBzbGVl
+cCgwLjEpCiAgICAgIG9zLnN5c3RlbSgnY2xlYXInKQoKICAgIHRyeToKCiAgICAgb3MubWtkaXIo
+Ii9kYXRhL2RhdGEvY29tLnRlcm11eC9maWxlcy9ob21lLy50ZXJtdXgiKQogICAgZXhjZXB0Ogog
+ICAgICAgICBwYXNzCgogICAgcHJpbnQoZysiWyIreSsi4pePIitnKyJdIitnKyIgc3VjZXNzbyAi
+K2QrIlsiK2duKyLiiJoiK2QrIl0iKQogICAgc2xlZXAoMikKICAgIG9zLnN5c3RlbSgiY2xlYXIi
+KQoKICAgIHQgPSAxCiAgICB3aGlsZSB0IDw9NzoKICAgICAgdCA9IHQrMQogICAgICBwcmludChn
+KyJbIit5KyLil48iK2crIl0iK2FjbisiIGFkaWNpb25hbmRvIGJvdMO1ZXMgbm8gdGVjbGFkbyBw
+cmVkZXRlcm1pbmFkby4uLiIreSsiXFwiKQogICAgICBzbGVlcCgwLjEpCiAgICAgIG9zLnN5c3Rl
+bSgnY2xlYXInKQogICAgICBwcmludChnKyJbIit5KyLil48iK2crIl0iK2crIiBhZGljaW9uYW5k
+byBib3TDtWVzIG5vIHRlY2xhZG8gcHJlZGV0ZXJtaW5hZG8uLi4iK3krInwiKQogICAgICBzbGVl
+cCgwLjEpCiAgICAgIG9zLnN5c3RlbSgnY2xlYXInKQogICAgICBwcmludChnKyJbIit5KyLil48i
+K2crIl0iK3krIiBhZGljaW9uYW5kbyBib3TDtWVzIG5vIHRlY2xhZG8gcHJlZGV0ZXJtaW5hZG8u
+Li4iK3krIi8iKQogICAgICBzbGVlcCgwLjEpCiAgICAgIG9zLnN5c3RlbSgnY2xlYXInKQogICAg
+ICBwcmludChnKyJbIit5KyLil48iK2crIl0iK3IrIiBhZGljaW9uYW5kbyBib3TDtWVzIG5vIHRl
+Y2xhZG8gcHJlZGV0ZXJtaW5hZG8uLi4iK3krIi0iKQogICAgICBzbGVlcCgwLjEpCiAgICAgIG9z
+LnN5c3RlbSgnY2xlYXInKQoKICAgIHdpdGggIG9wZW4oIi9kYXRhL2RhdGEvY29tLnRlcm11eC9m
+aWxlcy9ob21lLy50ZXJtdXgvdGVybXV4LnByb3BlcnRpZXMiLCJ3IikgYXMgdHA6CiAgICAgICB0
+cC53cml0ZSgiIiJleHRyYS1rZXlzID0gW1sie30iLCJbXSIsIigpIiwiJCIsIlVQIiwiIyIsIl8i
+XSxbIkVTQyIsIi8iLCItIiwiSE9NRSIsIisiLCJFTkQiLCJQR1VQIl0sWyJUQUIiLCJDVFJMIiwi
+QUxUIiwiTEVGVCIsIkRPV04iLCJSSUdIVCIsIlBHRE4iXV0iIiIpCiAgICAgICB0cC5jbG9zZSgp
+CgogICAgc2xlZXAoMikKCiAgICB0ID0gMQogICAgd2hpbGUgdCA8PTc6CiAgICAgIHQgPSB0KzEK
+ICAgICAgcHJpbnQoZysiWyIreSsi4pePIitnKyJdIithY24rIiB0ZXJtaW5hbmRvIHByb2Nlc3Nv
+Li4uIit5KyJcXCIpCiAgICAgIHNsZWVwKDAuMSkKICAgICAgb3Muc3lzdGVtKCdjbGVhcicpCiAg
+ICAgIHByaW50KGcrIlsiK3krIuKXjyIrZysiXSIrZysiIHRlcm1pbmFuZG8gcHJvY2Vzc28uLi4i
+K3krInwiKQogICAgICBzbGVlcCgwLjEpCiAgICAgIG9zLnN5c3RlbSgnY2xlYXInKQogICAgICBw
+cmludChnKyJbIit5KyLil48iK2crIl0iK3krIiB0ZXJtaW5hbmRvIHByb2Nlc3NvLi4uIit5KyIv
+IikKICAgICAgc2xlZXAoMC4xKQogICAgICBvcy5zeXN0ZW0oJ2NsZWFyJykKICAgICAgcHJpbnQo
+ZysiWyIreSsi4pePIitnKyJdIityKyIgdGVybWluYW5kbyBwcm9jZXNzby4uLiIreSsiLSIpCiAg
+ICAgIHNsZWVwKDAuMSkKICAgICAgb3Muc3lzdGVtKCdjbGV_hcicpCgogICAgc2xlZXAoMSkKICAg
+IG9zLnN5c3RlbSgidGVybXV4LXJlbG9hZC1zZXR0aW5ncyIpCiAgICBwcmludCAoYWNuKyJcbiAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgIO+9kO+9ku+9j++9g++9he+9k++9k++9jyDvvYPv
+vY/vvY3vvZDvvYzvvYXvvZTvvY8iKQogICAgcHJpbnQgKCIgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgIO+9kO+9j++9kiDwn5GJIO+9iO+9ge+9g++9i++9he+9ki3vvZPvvYEiKQogICAg
+cHJpbnQgKCIiKQogICAgcHJpbnQocisi4pWUIisi4pWQIio4NSsi4pWXIikKICAgIHByaW50IChy
+KyLilZEiK2crIk9CUzog772Q772V772Y772FIO+9jyB0ZWNsYWRvIGRhIGRpcmVpdGEgcGFyYSBh
+IGVzcXVlcmRhIHBhcmEgZW50cmFyIG5hIMOhcmVhIGRlIHRyYWJhbGhv77yBIityKyLilZEiKQog
+ICAgcHJpbnQoIuKVmiIrIuKVkCIqODUrIuKVnSIpCgojPT09PT09PT09PT09PT09PT09PT09PT09
+PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PQojIiIiX19fX186OjpfX186Ojo6
+X19fX19fXyB0ZWNsYWRvIDUgX19fX19fXzo6OjpfX186OjpfX19fXyIiIgojPT09PT09PT09PT09
+PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PQpkZWYgbTUo
+KToKICAgIG9zLnN5c3RlbSgiY2xlYXIiKQogICAgcHJpbnQoYWMrIlxuXG7vvYHvvYTvvYnvvYPv
+vYnvvY/vvY7vvYHvvY7vvYTvvY8g772U772F772D772M772B772E772PIO+9he+9k++9kO+9he+9
+g++9ie+9ge+9jCDvvY7vvY8g772U772F772S772N772V772Y77yBIikKICAgIHByaW50ICgiIikK
+ICAgIHByb2dyZXNzYmFyID0gdHFkbShbMSwyLDMsNCw1LDYsNyw4LDksMTAsMTEsMTIsMTMsMTMs
+MTQsMTUsMTYsMTcsMTgsMjBdKQoKICAgIGZvciBpdGVtIGluIHByb2dyZXNzYmFyOgogICAgICAg
+IHNsZWVwKDAuMikKICAgICAgICBwcm9ncmVzc2Jhci5zZXRfZGVzY3JpcHRpb24oJ1wwMzNbMG1c
+MDMzWzkybSBQUk9DRVNTQU5ETy4uLnt9Jy5mb3JtYXQoaXRlbSkpCgogICAgcHJpbnQodisi4pWQ
+Iio3MikKICAgIHNsZWVwKDIpCiAgICBvcy5zeXN0ZW0oImNsZWFyIikKCiAgICB0ID0gMQogICAg
+d2hpbGUgdCA8PSA3OgogICAgICB0ID0gdCsxCiAgICAgIHByaW50KGcrIlsiK3krIuKXjyIrZysi
+XSIrYWNuKyIgUmVjdXBlcmFuZG8gYXJxdWl2byBwcmVkZXRlcm1pbmFkbyBkbyB0ZXJtdXguLi4i
+K3krIlxcIikKICAgICAgc2xlZXAoMC4xKQogICAgICBvcy5zeXN0ZW0oJ2NsZWFyJykKICAgICAg
+cHJpbnQoZysiWyIreSsi4pePIitnKyJdIitnKyIgUmVjdXBlcmFuZG8gYXJxdWl2byBwcmVkZXRl
+cm1pbmFkbyBkbyB0ZXJtdXguLi4iK3krInwiKQogICAgICBzbGVlcCgwLjEpCiAgICAgIG9zLnN5
+c3RlbSgnY2xlYXInKQogICAgICBwcmludChnKyJbIit5KyLil48iK2crIl0iK3krIiBSZWN1cGVy
+YW5kbyBhcnF1aXZvIHByZWRldGVybWluYWRvIGRvIHRlcm11eC4uLiIreSsiLyIpCiAgICAgIHNs
+ZWVwKDAuMSkKICAgICAgb3Muc3lzdGVtKCdjbGVhcicpCiAgICAgIHByaW50KGcrIlsiK3krIuKX
+jyIrZysiXSIrcisiIFJlY3VwZXJhbmRvIGFycXVpdm8gcHJlZGV0ZXJtaW5hZG8gZG8gdGVybXV4
+Li4uIit5KyItIikKICAgICAgc2xlZXAoMC4xKQogICAgICBvcy5zeXN0ZW0oJ2NsZWFyJykKCiAg
+ICB0cnk6CgogICAgIG9zLm1rZGlyKCIvZGF0YS9kYXRhL2NvbS50ZXJtdXgvZmlsZXMvaG9tZS8u
+dGVybXV4IikKICAgIGV4Y2VwdDoKICAgICAgICAgcGFzcwoKICAgIHByaW50KGcrIlsiK3krIuKX
+jyIrZysiXSIrZysiIHN1Y2Vzc28gIitkKyJbIitnbisi4oiaIitkKyJdIikKICAgIHNsZWVwKDIp
+CiAgICBvcy5zeXN0ZW0oImNsZWFyIikKCiAgICB0ID0gMQogICAgd2hpbGUgdCA8PTc6CiAgICAg
+IHQgPSB0KzEKICAgICAgcHJpbnQoZysiWyIreSsi4pePIitnKyJdIithY24rIiBhZGljaW9uYW5k
+byBib3TDtWVzIG5vIHRlY2xhZG8gcHJlZGV0ZXJtaW5hZG8uLi4iK3krIlxcIikKICAgICAgc2xl
+ZXAoMC4xKQogICAgICBvcy5zeXN0ZW0oJ2NsZWFyJykKICAgICAgcHJpbnQoZysiWyIreSsi4peP
+IitnKyJdIitnKyIgYWRpY2lvbmFuZG8gYm90w7VlcyBubyB0ZWNsYWRvIHByZWRldGVybWluYWRv
+Li4uIit5KyJ8IikKICAgICAgc2xlZXAoMC4xKQogICAgICBvcy5zeXN0ZW0oJ2NsZWFyJykKICAg
+ICAgcHJpbnQoZysiWyIreSsi4pePIitnKyJdIit5KyIgYWRpY2lvbmFuZG8gYm90w7VlcyBubyB0
+ZWNsYWRvIHByZWRldGVybWluYWRvLi4uIit5KyIvIikKICAgICAgc2xlZXAoMC4xKQogICAgICBv
+cy5zeXN0ZW0oJ2NsZWFyJykKICAgICAgcHJpbnQoZysiWyIreSsi4pePIitnKyJdIityKyIgYWRp
+Y2lvbmFuZG8gYm90w7VlcyBubyB0ZWNsYWRvIHByZWRldGVybWluYWRvLi4uIit5KyItIikKICAg
+ICAgc2xlZXAoMC4xKQogICAgICBvcy5zeXN0ZW0oJ2NsZWFyJykKCiAgICB3aXRoICBvcGVuKCIv
+ZGF0YS9kYXRhL2NvbS50ZXJtdXgvZmlsZXMvaG9tZS8udGVybXV4L3Rlcm11eC5wcm9wZXJ0aWVz
+IiwidyIpIGFzIHRwOgogICAgICAgdHAud3JpdGUoIiIiZXh0cmEta2V5cyA9IFtbInt9IiwiW10i
+LCIoKSIsIioiLCIkIiwiVVAiLCIjIiwiXyJdLFsiRVNDIiwiLyIsIi0iLCI9IiwiSE9NRSIsIisi
+LCJFTkQiLCJQR1VQIl0sWyJUQUIiLCJDVFJMIiwiQUxUIiwi4pWQIiwiTEVGVCIsIkRPV04iLCJS
+SUdIVCIsIlBHRE4iXV0iIiIpCiAgICAgICB0cC5jbG9zZSgpCgogICAgc2xlZXAoMikKCiAgICB0
+ID0gMQogICAgd2hpbGUgdCA8PTc6CiAgICAgIHQgPSB0KzEKICAgICAgcHJpbnQoZysiWyIreSsi
+4pePIitnKyJdIithY24rIiB0ZXJtaW5hbmRvIHByb2Nlc3NvLi4uIit5KyJcXCIpCiAgICAgIHNs
+ZWVwKDAuMSkKICAgICAgb3Muc3lzdGVtKCdjbGVhcicpCiAgICAgIHByaW50KGcrIlsiK3krIuKX
+jyIrZysiXSIrZysiIHRlcm1pbmFuZG8gcHJvY2Vzc28uLi4iK3krInwiKQogICAgICBzbGVlcCgw
+LjEpCiAgICAgIG9zLnN5c3RlbSgnY2xlYXInKQogICAgICBwcmludChnKyJbIit5KyLil48iK2cr
+Il0iK3krIiB0ZXJtaW5hbmRvIHByb2Nlc3NvLi4uIit5KyIvIikKICAgICAgc2xlZXAoMC4xKQog
+ICAgICBvcy5zeXN0ZW0oJ2NsZWFyJykKICAgICAgcHJpbnQoZysiWyIreSsi4pePIitnKyJdIity
+KyIgdGVybWluYW5kbyBwcm9jZXNzby4uLiIreSsiLSIpCiAgICAgIHNsZWVwKDAuMSkKICAgICAg
+b3Muc3lzdGVtKCdjbGVhcicpCgogICAgc2xlZXAoMSkKICAgIG9zLnN5c3RlbSgidGVybXV4LXJl
+bG9hZC1zZXR0aW5ncyIpCiAgICBwcmludCAoYWNuKyJcbiAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgIO+9kO+9ku+9j++9g++9he+9k++9k++9jyDvvYPvvY/vvY3vvZDvvYzvvYXvvZTvvY8i
+KQogICAgcHJpbnQgKCIgICAgICAgICAgICAgICAgICAgIC_AgICAgICAgICAgIO+9kO+9j++9kiDw
+n5GJIO+9iO+9ge+9g++9i++9he+9ki3vvZPvvYEiKQogICAgcHJpbnQgKCIiKQogICAgcHJpbnQo
+cisi4pWUIisi4pWQIio4NSsi4pWXIikKICAgIHByaW50IChyKyLilZEiK2crIk9CUzog772Q772V
+772Y772FIO+9jyB0ZWNsYWRvIGRhIGRpcmVpdGEgcGFyYSBhIGVzcXVlcmRhIHBhcmEgZW50cmFy
+IG5hIMOhcmVhIGRlIHRyYWJhbGhv77yBIityKyLilZEiKQogICAgcHJpbnQoIuKVmiIrIuKVkCIq
+ODUrIuKVnSIpCgojPT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09
+PT09PT09PT09PT09PT09PQojIiIiX19fXzo6OjpfX186Ojo6X19fX19fX3RlY2xhZG8gNiBfX19f
+X19fOjo6Ol9fX186Ojo6X19fXyIiIgojPT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09
+PT09PT09PT09PT09PT09PT09PT09PT09PT09PQpkZWYgbTYoKToKICAgIG9zLnN5c3RlbSgiY2xl
+YXIiKQogICAgcHJpbnQoYWMrIlxuXG7vvYHvvYTvvYnvvYPvvYnvvY/vvY7vvYHvvY7vvYTvvY8g
+772U772F772D772M772B772E772PIO+9he+9k++9kO+9he+9g++9ie+9ge+9jCDvvY7vvY8g772U
+772F772S772N772V772Y77yBIikKICAgIHByaW50ICgiIikKICAgIHByb2dyZXNzYmFyID0gdHFk
+bShbMSwyLDMsNCw1LDYsNyw4LDksMTAsMTEsMTIsMTMsMTMsMTQsMTUsMTYsMTcsMTgsMjBdKQoK
+ICAgIGZvciBpdGVtIGluIHByb2dyZXNzYmFyOgogICAgICAgIHNsZWVwKDAuMikKICAgICAgICBw
+cm9ncmVzc2Jhci5zZXRfZGVzY3JpcHRpb24oJ1wwMzNbMG1cMDMzWzkybSBQUk9DRVNTQU5ETy4u
+Lnt9Jy5mb3JtYXQoaXRlbSkpCgogICAgcHJpbnQodisi4pWQIio3MikKICAgIHNsZWVwKDIpCiAg
+ICBvcy5zeXN0ZW0oImNsZWFyIikKCiAgICB0ID0gMQogICAgd2hpbGUgdCA8PSA3OgogICAgICB0
+ID0gdCsxCiAgICAgIHByaW50KGcrIlsiK3krIuKXjyIrZysiXSIrYWNuKyIgUmVjdXBlcmFuZG8g
+YXJxdWl2byBwcmVkZXRlcm1pbmFkbyBkbyB0ZXJtdXguLi4iK3krIlxcIikKICAgICAgc2xlZXAo
+MC4xKQogICAgICBvcy5zeXN0ZW0oJ2NsZWFyJykKICAgICAgcHJpbnQoZysiWyIreSsi4pePIitn
+KyJdIitnKyIgUmVjdXBlcmFuZG8gYXJxdWl2byBwcmVkZXRlcm1pbmFkbyBkbyB0ZXJtdXguLi4i
+K3krInwiKQogICAgICBzbGVlcCgwLjEpCiAgICAgIG9zLnN5c3RlbSgnY2xlYXInKQogICAgICBw
+cmludChnKyJbIit5KyLil48iK2crIl0iK3krIiBSZWN1cGVyYW5kbyBhcnF1aXZvIHByZWRldGVy
+bWluYWRvIGRvIHRlcm11eC4uLiIreSsiLyIpCiAgICAgIHNsZWVwKDAuMSkKICAgICAgb3Muc3lz
+dGVtKCdjbGVhcicpCiAgICAgIHByaW50KGcrIlsiK3krIuKXjyIrZysiXSIrcisiIFJlY3VwZXJh
+bmRvIGFycXVpdm8gcHJlZGV0ZXJtaW5hZG8gZG8gdGVybXV4Li4uIit5KyItIikKICAgICAgc2xl
+ZXAoMC4xKQogICAgICBvcy5zeXN0ZW0oJ2NsZWFyJykKCiAgICB0cnk6CiAgICAgb3MubWtkaXIo
+Ii9kYXRhL2RhdGEvY29tLnRlcm11eC9maWxlcy9ob21lLy50ZXJtdXgiKQogICAgZXhjZXB0Ogog
+ICAgICAgIHBhc3MKICAgIHByaW50KGcrIlsiK3krIuKXjyIrZysiXSIrZysiIHN1Y2Vzc28gIitk
+KyJbIitnbisi4oiaIitkKyJdIikKICAgIHNsZWVwKDIpCiAgICBvcy5zeXN0ZW0oImNsZWFyIikK
+CiAgICB0ID0gMQogICAgd2hpbGUgdCA8PTc6CiAgICAgIHQgPSB0KzEKICAgICAgcHJpbnQoZysi
+WyIreSsi4pePIitnKyJdIithY24rIiBhZGljaW9uYW5kbyBib3TDtWVzIG5vIHRlY2xhZG8gcHJl
+ZGV0ZXJtaW5hZG8uLi4iK3krIlxcIikKICAgICAgc2xlZXAoMC4xKQogICAgICBvcy5zeXN0ZW0o
+J2NsZWFyJykKICAgICAgcHJpbnQoZysiWyIreSsi4pePIitnKyJdIitnKyIgYWRpY2lvbmFuZG8g
+Ym90w7VlcyBubyB0ZWNsYWRvIHByZWRldGVybWluYWRvLi4uIit5KyJ8IikKICAgICAgc2xlZXAo
+MC4xKQogICAgICBvcy5zeXN0ZW0oJ2NsZWFyJykKICAgICAgcHJpbnQoZysiWyIreSsi4pePIitn
+KyJdIit5KyIgYWRpY2lvbmFuZG8gYm90w7VlcyBubyB0ZWNsYWRvIHByZWRldGVybWluYWRvLi4u
+Iit5KyIvIikKICAgICAgc2xlZXAoMC4xKQogICAgICBvcy5zeXN0ZW0oJ2NsZWFyJykKICAgICAg
+cHJpbnQoZysiWyIreSsi4pePIitnKyJdIityKyIgYWRpY2lvbmFuZG8gYm90w7VlcyBubyB0ZWNs
+YWRvIHByZWRldGVybWluYWRvLi4uIit5KyItIikKICAgICAgc2xlZXAoMC4xKQogICAgICBvcy5z
+eXN0ZW0oJ2NsZWFyJykKCiAgICB3aXRoICBvcGVuKCIvZGF0YS9kYXRhL2NvbS50ZXJtdXgvZmls
+ZXMvaG9tZS8udGVybXV4L3Rlcm11eC5wcm9wZXJ0aWVzIiwidyIpIGFzIHRwOgogICAgICAgdHAu
+d3JpdGUoIiIiZXh0cmEta2V5cyA9IFtbIuKVlCIsIuKVlyIsIuKVpiIsIuKWkiIsIuKWkSIsIuKV
+rSIsIuKVriIsIlVQIiwi4pePIiwi4oiaIiwi4pynIiwi4pasIl0sWyLilZoiLCLilZ0iLCLilaki
+LCLiloAiLCLilogiLCLilbAiLCLila8iLCLCsCIsIsK2Iiwi4paLIiwi4piGIiwiUEdVUCJdLFsi
+Q1RSTCIsIuKVoCIsIuKVoyIsIuKVkSIsIuKVkCIsIuK4jSIsIkxFRlQiLCJET1dOIiwiUklHSFQi
+LCLiuJwiLCLinLoiLCJQR0ROIl1dIiIiKQogICAgICAgdHAuY2xvc2UoKQoKICAgIHNsZWVwKDIp
+CgogICAgdCA9IDEKICAgIHdoaWxlIHQgPD03OgogICAgICB0ID0gdCsxCiAgICAgIHByaW50KGcr
+IlsiK3krIuKXjyIrZysiXSIrYWNuKyIgdGVybWluYW5kbyBwcm9jZXNzby4uLiIreSsiXFwiKQog
+ICAgICBzbGVlcCgwLjEpCiAgICAgIG9zLnN5c3RlbSgnY2xlYXInKQogICAgICBwcmludChnKyJb
+Iit5KyLil48iK2crIl0iK2crIiB0ZXJtaW5hbmRvIHByb2Nlc3NvLi4uIit5KyJ8IikKICAgICAg
+c2xlZXAoMC4xKQogICAgICBvcy5zeXN0ZW0oJ2NsZWFyJykKICAgICAgcHJpbnQoZysiWyIreSsi
+4pePIitnKyJdIit5KyIgdGVybWluYW5kbyBwcm9jZXNzby4uLiIreSsiLyIpCiAgICAgIHNsZWVw
+KDAuMSkKICAgICAgb3Muc3lzdGVtKCdjbGVhcicpCiAgICAgIHByaW50KGcrIlsiK3krIuKXjyIr
+ZysiXSIrcisiIHRlcm1pbmFuZG8gcHJvY2Vzc28uLi4iK3krIi0iKQogICAgICBzbGVlcCgwLjEp
+CiAgICAgIG9zLnN5c3RlbSgnY2xlYXInKQoKICAgIHNsZWVwKDEpCiAgICBvcy5zeXN0ZW0oInRl
+cm11eC1yZWxvYWQtc2V0dGluZ3MiKQogICAgcHJpbnQgKGIrIlxuICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAg772Q772S772P772D772F772T772T772PIO+9g++9j++9je+9kO+9jO+9he+9
+lO+9jyIpCiAgICBwcmludCAoIiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg772Q772P
+772SIPCfkYkg772I772B772D772L772F772SLe+9k++9gSIpCiAgICBwcmludCAoZ24rIiIiXG5l
+c3RlIHRlY2xhZG8gc8OzIHBvZGUgc2VyIHVzYWRvIGVtIHB5dGhvbiBzZSB2YyBjb2xvY2FyIG8g
+bm9tZSDwn5GJICMtKi0gY29kaW5nOnV0ZjggLSotXG5uYSBwcmltZWlyYSBvdSBzZWd1bmRhIGxp
+bmhhIGRvIHNjcmlwdCIiIikKICAgIHByaW50ICgiIikKICAgIHByaW50KHIrIuKVlCIrIuKVkCIq
+ODUrIuKVlyIpCiAgICBwcmludCAocisi4pWRIitnKyJPQlM6IO+9kO+9le+9mO+9hSDvvY8gdGVj
+bGFkbyBkYSBkaXJlaXRhIHBhcmEgYSBlc3F1ZXJkYSBwYXJhIGVudHJhciBuYSDDoXJlYSBkZSB0
+cmFiYWxob++8gSIrcisi4pWRIikKICAgIHByaW50KCLilZoiKyLilZAiKjg1KyLilZ0iKQoKIz09
+PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09
+PT0KIyIiIl9fX186Ojo6X19fOjo6Ol9fX19fX190ZWNsYWRvIDcgX19fX19fXzo6OjpfX19fOjo6
+Ol9fX18iIiIKIz09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09
+PT09PT09PT09PT09PT0KZGVmIG03KCk6CiAgICBvcy5zeXN0ZW0oImNsZWFyIikKICAgIHByaW50
+KGFjKyJcblxu772B772E772J772D772J772P772O772B772O772E772PIO+9lO+9he+9g++9jO+9
+ge+9hO+9jyDvvYXvvZPvvZDvvYXvvYPvvYnvvYHvvYwg772O772PIO+9lO+9he+9ku+9je+9le+9
+mO+8gSIpCiAgICBwcmludCAoIiIpCiAgICBwcm9ncmVzc2JhciA9IHRxZG0oWzEsMiwzLDQsNSw2
+LDcsOCw5LDEwLDExLDEyLDEzLDEzLDE0LDE1LDE2LDE3LDE4LDIwXSkKCiAgICBmb3IgaXRlbSBp
+biBwcm9ncmVzc2JhcjoKICAgICAgICBzbGVlcCgwLjIpCiAgICAgICAgcHJvZ3Jlc3NiYXIuc2V0
+X2Rlc2NyaXB0aW9uKCdcMDMzWzBtXDAzM1s5Mm0gUFJPQ0VTU0FORE8uLi57fScuZm9ybWF0KGl0
+ZW0pKQoKICAgIHByaW50KHYrIuKVkCIqNzIpCiAgICBzbGVlcCgyKQogICAgb3Muc3lzdGVtKCJj
+bGVhciIpCgogICAgdCA9IDEKICAgIHdoaWxlIHQgPD0gNzoKICAgICAgdCA9IHQrMQogICAgICBw
+cmludChnKyJbIit5KyLil48iK2crIl0iK2FjbisiIFJlY3VwZXJhbmRvIGFycXVpdm8gcHJlZGV0
+ZXJtaW5hZG8gZG8gdGVybXV4Li4uIit5KyJcXCIpCiAgICAgIHNsZWVwKDAuMSkKICAgICAgb3Mu
+c3lzdGVtKCdjbGVhcicpCiAgICAgIHByaW50KGcrIlsiK3krIuKXjyIrZysiXSIrZysiIFJlY3Vw
+ZXJhbmRvIGFycXVpdm8gcHJlZGV0ZXJtaW5hZG8gZG8gdGVybXV4Li4uIit5KyJ8IikKICAgICAg
+c2xlZXAoMC4xKQogICAgICBvcy5zeXN0ZW0oJ2NsZWFyJykKICAgICAgcHJpbnQoZysiWyIreSsi
+4pePIitnKyJdIit5KyIgUmVjdXBlcmFuZG8gYXJxdWl2byBwcmVkZXRlcm1pbmFkbyBkbyB0ZXJt
+dXguLi4iK3krIi8iKQogICAgICBzbGVlcCgwLjEpCiAgICAgIG9zLnN5c3RlbSgnY2xlYXInKQog
+ICAgICBwcmludChnKyJbIit5KyLil48iK2crIl0iK3IrIiBSZWN1cGVyYW5kbyBhcnF1aXZvIHBy
+ZWRldGVybWluYWRvIGRvIHRlcm11eC4uLiIreSsiLSIpCiAgICAgIHNsZWVwKDAuMSkKICAgICAg
+b3Muc3lzdGVtKCdjbGVhcicpCgogICAgdHJ5OgogICAgIG9zLm1rZGlyKCIvZGF0YS9kYXRhL2Nv
+bS50ZXJtdXgvZmlsZXMvaG9tZS8udGVybXV4IikKICAgIGV4Y2VwdDoKICAgICAgICBwYXNzCiAg
+ICBwcmludChnKyJbIit5KyLil48iK2crIl0iK2crIiBzdWNlc3NvICIrZCsiWyIrZ24rIuKImiIr
+ZCsiXSIpCiAgICBzbGVlcCgyKQogICAgb3Muc3lzdGVtKCJjbGVhciIpCgogICAgdCA9IDEKICAg
+IHdoaWxlIHQgPD03OgogICAgICB0ID0gdCsxCiAgICAgIHByaW50KGcrIlsiK3krIuKXjyIrZysi
+XSIrYWNuKyIgYWRpY2lvbmFuZG8gYm90w7VlcyBubyB0ZWNsYWRvIHByZWRldGVybWluYWRvLi4u
+Iit5KyJcXCIpCiAgICAgIHNsZWVwKDAuMSkKICAgICAgb3Muc3lzdGVtKCdjbGVhcicpCiAgICAg
+IHByaW50KGcrIlsiK3krIuKXjyIrZysiXSIrZysiIGFkaWNpb25hbmRvIGJvdMO1ZXMgbm8gdGVj
+bGFkbyBwcmVkZXRlcm1pbmFkby4uLiIreSsifCIpCiAgICAgIHNsZWVwKDAuMSkKICAgICAgb3Mu
+c3lzdGVtKCdjbGVhcicpCiAgICAgIHByaW50KGcrIlsiK3krIuKXjyIrZysiXSIreSsiIGFkaWNp
+b25hbmRvIGJvdMO1ZXMgbm8gdGVjbGFkbyBwcmVkZXRlcm1pbmFkby4uLiIreSsiLyIpCiAgICAg
+IHNsZWVwKDAuMSkKICAgICAgb3Muc3lzdGVtKCdjbGVhcicpCiAgICAgIHByaW50KGcrIlsiK3kr
+IuKXjyIrZysiXSIrcisiIGFkaWNpb25hbmRvIGJvdMO1ZXMgbm8gdGVjbGFkbyBwcmVkZXRlcm1p
+bmFkby4uLiIreSsiLSIpCiAgICAgIHNsZWVwKDAuMSkKICAgICAgb3Muc3lzdGVtKCdjbGVhcicp
+CgogICAgd2l0aCAgb3BlbigiL2RhdGEvZGF0YS9jb20udGVybXV4L2ZpbGVzL2hvbWUvLnRlcm11
+eC90ZXJtdXgucHJvcGVydGllcyIsInciKSBhcyB0cDoKICAgICAgIHRwLndyaXRlKCIiImV4dHJh
+LWtleXMgPSBbWyLvvZEiLCLvvZciLCLvvYUiLCLvvZIiLCLvvZQiLCLvvZkiLCLvvZUiLCJVUCIs
+Iu+9iSIsIu+9jyIsIu+9kCJdLFsiRVNDIiwi772BIiwi772TIiwi772EIiwi772GIiwi772HIiwi
+772IIiwi772KIiwi772LIiwi772MIiwi77yBIl0sWyJDVFJMIiwi772aIiwi772YIiwi772DIiwi
+772WIiwi772CIiwiTEVGVCIsIkRPV04iLCJSSUdIVCIsIu+9jiIsIu+9jSJdXSIiIikKICAgICAg
+IHRwLmNsb3NlKCkKCiAgICBzbGVlcCgyKQoKICAgIHQgPSAxCiAgICB3aGlsZSB0IDw9NzoKICAg
+ICAgdCA9IHQrMQogICAgICBwcmludChnKyJbIit5KyLil48iK2crIl0iK2FjbisiIHRlcm1pbmFu
+ZG8gcHJvY2Vzc28uLi4iK3krIlxcIikKICAgICAgc2xlZXAoMC4xKQogICAgICBvcy5zeXN0ZW0o
+J2NsZWFyJykKICAgICAgcHJpbnQoZysiWyIreSsi4pePIitnKyJdIitnKyIgdGVybWluYW5kbyBw
+cm9jZXNzby4uLiIreSsifCIpCiAgICAgIHNsZWVwKDAuMSkKICAgICAgb3Muc3lzdGVtKCdjbGVh
+cicpCiAgICAgIHByaW50KGcrIlsiK3krIuKXjyIrZysiXSIreSsiIHRlcm1pbmFuZG8gcHJvY2Vz
+c28uLi4iK3krIi8iKQogICAgICBzbGVlcCgwLjEpCiAgICAgIG9zLnN5c3RlbSgnY2xlYXInKQog
+ICAgICBwcmludChnKyJbIit5KyLil48iK2crIl0iK3IrIiB0ZXJtaW5hbmRvIHByb2Nlc3NvLi4u
+Iit5KyItIikKICAgICAgc2xlZXAoMC4xKQogICAgICBvcy5zeXN0ZW0oJ2NsZWFyJykKCiAgICBz
+bGVlcCgxKQogICAgb3Muc3lzdGVtKCJ0ZXJtdXgtcmVsb2FkLXNldHRpbmdzIikKICAgIHByaW50
+IChiKyJcbiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIO+9kO+9ku+9j++9g++9he+9k++9
+k++9jyDvvYPvvY/vvY3vvZDvvYzvvYXvvZTvvY8iKQogICAgcHJpbnQgKCIgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgIO+9kO+9j++9kiDwn5GJIO+9iO+9ge+9g++9i++9he+9ki3vvZPv
+vYEiKQogICAgcHJpbnQgKGduKyIiIlxuZXN0ZSB0ZWNsYWRvIHPDsyBwb2RlIHNlciB1c2FkbyBl
+bSBweXRob24gc2UgdmMgY29sb2NhciBvIG5vbWUg8J+RiSAjLSotIGNvZGluZzp1dGY4IC0qLVxu
+bmEgcHJpbWVpcmEgb3Ugc2VndW5kYSBsaW5oYSBkbyBzY3JpcHQiIiIpCiAgICBwcmludCAoIiIp
+CiAgICBwcmludChyKyLilZQiKyLilZAiKjg1KyLilZciKQogICAgcHJpbnQgKHIrIuKVkSIrZysi
+T0JTOiDvvZDvvZXvvZjvvYUg772PIHRlY2xhZG8gZGEgZGlyZWl0YSBwYXJhIGEgZXNxdWVyZGEg
+cGFyYSBlbnRyYXIgbmEgw6FyZWEgZGUgdHJhYmFsaG/vvIEiK3IrIuKVkSIpCiAgICBwcmludCgi
+4pWaIisi4pWQIio4NSsi4pWdIikKCiM9PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09
+PT09PT09PT09PT09PT09PT09PT09PT09PT09CiMiIiJfX19fX19fOjo6Ol9fXzo6OjpfX19fX18g
+YWJvdXQgX19fX19fOjo6Ol9fXzo6OjpfX19fX19fIiIiCiM9PT09PT09PT09PT09PT09PT09PT09
+PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09CmRlZiBtOCgpOgogICAgb3Mu
+c3lzdGVtKCJjbGVhciIpCiAgICBwcmludCAoIlxuIikKICAgIHByaW50ICh2KyIqIiAqIDcwKQog
+ICAgcHJpbnQgKGcrIlxu772U772F772D772M772B772E772PLe+9k++9gSAiK3krIiAgICAgICAg
+ICIrYWMrIiAgICAgICAgICAgICAgIO+9lu+9he+9ku+9k++9ge+9jzoiK3krIjIuMCIpCiAgICBw
+cmludCAoIiIpCiAgICBwcmludCAoYWMrIu+9g++9ku+9ie+9ge+9hO+9jyDvvZDvvY/vvZI6Iit5
+KyIg772I772B772D772L772F772SLe+9k++9gSAgIithYysiICAgIO+9hO+9ge+9lO+9gToiK3kr
+IjAzLzA0LzIwMjAiKQogICAgcHJpbnQgKCIiKQogICAgcHJpbnQgKGFjKyLvvY3vvYXvvZUg772H
+772J772U772I772V772CIPCfkYkiK3krIiBodHRwczovL2dpdGh1Yi5jb20vaGFja2VyLXNhICIp
+CiAgICBwcmludCAoIiIpCiAgICBwcmludCAodisiKiIgKiA3MCkKICAgIHByaW50IChnKyJbIiti
+KyIxIitnKyJdIitnKyJ2b2x0YXIgYW8gbWVudSBhbnRlcmlvciIpCiAgICBwcmludCAoZysiWyIr
+YisiMiIrZysiXSIrZysic2FpciIpCiAgICBvcHQyID0gcmF3X2lucHV0KCIgbyBxdcOqIGRlc2Vq
+YSBmYXplcj8g8J+RiSAiKQogICAgaWYgb3B0MiBpbiBbIjEiXSBvciBvcHQyIGluIFsiMDEiXToK
+ICAgICAgIHJlc3RhcnQoKQoKICAgIGVsaWYgb3B0MiBpbiBbIjIiXSBvciBvcHQyIGluIFsiMDIi
+XToKICAgICAgIHNhaXIoKQoKICAgIGVsc2U6CiAgICAgICAgIG9zLnN5c3RlbSgiY2xlYXIiKQog
+ICAgICAgICBwcmludCAoZytvcHQrQisiIG7Do28gw6kgdW1hIG9ww6fDo28gZXhpc3RlbnRlIikK
+ICAgICAgICAgcHJpbnQgKEIrInZvbHRhbmRvIGFvIG1lbnUgcHJpbmNpcGFsLi4uIikKICAgICAg
+ICAgc2xlZXAoMykKICAgICAgICAgcmVzdGFydCgpCgojPT09PT09PT09PT09PT09PT09PT09PT09
+PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PQojIiIiX19fOjo6X19fXzo6Ojpf
+X19fIG1vZG8gZSB2ZWxvY2lkYWRlMiBfX19fOjo6Ol9fXzo6Ol9fXyIiIgojPT09PT09PT09PT09
+PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PQpkZWYgdHh0
+KHMpOgogICAgZm9yIG5vb2JzIGluIHMgKyAiXG4iOgogICAgICAgICAgICBzeXMuc3Rkb3V0Lndy
+aXRlKG5vb2JzKQogICAgICAgICAgICBzeXMuc3Rkb3V0LmZsdXNoKCkKICAgICAgICAgICAgc2xl
+ZXAoMTEwLiAvIDIxMDApCgoKIz09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09
+PT09PT09PT09PT09PT09PT09PT09PT0KIyIiIl9fX19fX186OjpfX19fOjo6Ol9fXyBtZW51IGRl
+IHNhw61kYSBfXzo6OjpfX19fOjo6X19fX19fIiIiCiM9PT09PT09PT09PT09PT09PT09PT09PT09
+PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09CmRlZiBzYWlyKCk6CiAgICBwcmlu
+dCAoZysicXVhbCBvIHNldSBub21lPyIpCiAgICBub21lID0gcmF3X2lucHV0KCJub21lIPCfkYkg
+IikKICAgIG9zLnN5c3RlbSgiY2xlYXIiKQogICAgdHh0KGcrIlxuT2zDoSAiK25vbWUrIiBtdWl0
+byBvYnJpZ2FkbyBwb3IgdXNhciBlc3RhIGZlcnJhbWVudGEhISEg8J+RjyBjcmllaSBlc3RlIFxu
+dGVjbGFkbyBwYXJhIGZhY2lsaXRhciBhIHByb2dyYW1hw6fDo28gY29tIHJlbGHDp8OjbyAgYW8g
+dXNvIGRvcyBjYXLDoWN0ZXJzXG5lIG1vdmltZW50YcOnw6NvIGRvIGN1cnNvciBuYSBob3JhIGRl
+IHByb2dyYW1hci4iKQogICAgc2xlZXAoMSkKICAgIHR4dChnKyJFc3Blcm8gdMOqLWxvIGFqdWRh
+ZG8uLi5RdWFscXVlciBkw7p2aWRhIGNyw610aWNhIG91IHN1amVzdMOjbyBwb3IgZmF2b3IgY29u
+dGF0ZS1tZS5cblxuRW1haWwg8J+RiSIrYisiIGhhY2tlcnNhMDJAZ21haWwuY29tIikKICAgIHR4
+dChnKyJtZXUgZ2l0aHViIPCfkYkgIitiKyJodHRwczovL2dpdGh1Yi5jb20vaGFja2VyLXNhIikK
+ICAgIHByaW50IChkKQogICAgc3lzLmV4aXQoKQoKCiM9PT09PT09PT09PT09PT09PT09PT09PT09
+PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09CiMiIiJfX19fX19fOjo6X19fOjo6
+Ol9fX2Z1bsOnw6NvIHJlc3RhcnQgX186Ojo6X19fXzo6Ol9fX19fX18iIiIKIz09PT09PT09PT09
+PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT0KZGVmIHJl
+c3RhcnQoKToKICAgIHIgPSBzeXMuZXhlY3V0YWJsZQogICAgb3MuZXhlY2wociwgciwgKiBzeXMu
+YXJndikKCmRlZiBmbigpOgogICAgcHJpbnQgKHkrIu+9hO+9he+9k++9he+9iu+9gSDvvZTvvYXv
+vZPvvZTvvYHvvZIg772N772B772J772TIO+9ge+9jO+9h++9le+9jSDvvZTvvYXvvYPvvYzvvYHv
+vYTvvY8g77yfIikKICAgIHByaW50IChnKyJbIit5KyIxIitnKyJdIithY24rIiB0ZXN0YXIiKQog
+ICAgcHJpbnQgKGcrIlsiK3krIjIiK2crIl0iK2FjbisiIHNhaXIiKQogICAgb3B0ID0gcmF3X2lu
+cHV0KHkrIm9ww6fDo28g8J+RiSAiKQogICAgaWYgb3B0IGluIFsiMSJdIG9yIG9wdCBpbiBbIjAx
+Il06CiAgICAgICBtZW51MigpCgogICAgZWxpZiBvcHQgaW4gWyIyIl0gb3Igb3B0IGluIFsiMDIi
+XToKICAgICAgIHNhaXIoKQoKICAgIGVsc2U6CiAgICAgICAgb3Muc3lzdGVtKCJjbGVhciIpCiAg
+ICAgICAgcHJpbnQgKGcrb3B0K0IrIiBuw6NvIMOpIHVtYSBvcMOnw6NvIGV4aXN0ZW50ZSIpCiAg
+ICAgICAgcHJpbnQgKEIrInZvbHRhbmRvIGFvIG1lbnUgcHJpbmNpcGFsLi4uIikKICAgICAgICBz
+bGVlcCgzKQogICAgICAgIHJlc3RhcnQoKQoK"""
+eval(compile(base64.b64decode(sa),'','exec',))
